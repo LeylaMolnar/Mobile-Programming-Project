@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PokeGuesser - Add Pokemon</title>
+  </head>
+  <body>
+    <h2>Add Pokemon</h2>
+    <form method="POST" action="/submit">
+      <div>
+        <input type="text" name="pokemon" placeholder="Pokemon">
+      </div>
+      <div>
+        <input name="hint1type" placeholder="Hint 1: Type">    
+        <input name="hint1" placeholder="Hint 1">
+      </div>
+      <div>
+        <input name="hint2type" placeholder="Hint 2: Type">     
+        <input name="hint2" placeholder="Hint 2">
+      </div>
+      <div>
+        <input name="hint3type" placeholder="Hint 3: Type">     
+        <input name="hint3" placeholder="Hint 3">
+      </div>
+      <div>
+        <input name="hint4type" placeholder="Hint 4: Type">     
+        <input name="hint4" placeholder="Hint 4">
+      </div>
+      <div>
+        <input name="hint5type" placeholder="Hint 5: Type">      
+        <input name="hint5" placeholder="Hint 5">
+      </div>
+      <div>
+        <input name="hint6type" placeholder="Hint 6: Type">     
+        <input name="hint6" placeholder="Hint 6">
+      </div>
+      <div>
+        <input name="hint7type" placeholder="Hint 7: Type">      
+        <input name="hint7" placeholder="Hint 7">
+      </div>
+      <div>
+        <input name="hint8type" placeholder="Hint 8: Type">  
+        <input name="hint8" placeholder="Hint 8">
+      </div>
+      <div>
+        <input name="hint9type" placeholder="Hint 9: Type">
+        <input name="hint9" placeholder="Hint 9">
+      </div>
+      <div>
+        <input type="button" onclick="addToDb(this.form)">Add Pokemon
+        <button type="submit">Tester</button>
+      </div>
+    </form>
+    <script>
+      function addToDb(form){
+        console.log("addToDb called");
+        let pokemon = new Object();
+        pokemon.name = form.pokemon.value;
+        pokemon.hint1type = form.hint1type.value;
+        pokemon.hint1 = form.hint1.value;
+        pokemon.hint2type = form.hint2type.value;
+        pokemon.hint2 = form.hint2.value;
+        pokemon.hint3type = form.hint3type.value;
+        pokemon.hint3 = form.hint3.value;
+        pokemon.hint4type = form.hint4type.value;
+        pokemon.hint4 = form.hint4.value;
+        pokemon.hint5type = form.hint5type.value;
+        pokemon.hint5 = form.hint5.value;
+        pokemon.hint6type = form.hint6type.value;
+        pokemon.hint6 = form.hint6.value;
+        pokemon.hint7type = form.hint7type.value;
+        pokemon.hint7 = form.hint7.value;
+        pokemon.hint8type = form.hint8type.value;
+        pokemon.hint8 = form.hint8.value;
+        pokemon.hint9type = form.hint9type.value;
+        pokemon.hint9 = form.hint9.value;
+
+        let jsonPoke = JSON.stringify(pokemon);
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.open("POST", "/addPoke", true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.send(jsonPoke);
+      }
+
+    </script>
+  </body>
+</html>
