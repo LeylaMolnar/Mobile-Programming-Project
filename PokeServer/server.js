@@ -81,6 +81,7 @@ async function pingdb() {
 async function addPoke(pokemon) {
   console.log("addPoke function called");
   try {
+    await client.connect();
     await client.db("pokeguesser").collection("game").insertOne(pokemon);
   } catch (e) {
     console.log(e);
