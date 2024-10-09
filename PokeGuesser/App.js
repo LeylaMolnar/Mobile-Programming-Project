@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState} from 'react';
 
 import {
   StyleSheet,
@@ -9,58 +9,6 @@ import {
   Easing,
   Modal,
 } from 'react-native';
-
-const Card = ({text}) => {
-  return (
-    <Animated.View style={{flex: 1}}>
-      <Pressable style={styles.card}>
-        <Text>{text}</Text>
-      </Pressable>
-    </Animated.View>
-  );
-};
-
-const FadeCard = ({text}) => {
-  const fadeAnim = useRef(new Animated.Value(1)).current;
-  const [isFadedOut, setIsFadedOut] = useState(false);
-
-  const handlePress = () => {
-    if (isFadedOut) {
-      fadeIn();
-    } else {
-      fadeOut();
-    }
-    setIsFadedOut(!isFadedOut); // Toggle state
-  };
-
-  const fadeIn = () => {
-    // Will change fadeAnim value to 1 in 1 second
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const fadeOut = () => {
-    // Will change fadeAnim value to 0 in 1 second
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  return (
-    <View style={styles.cardContainer}>
-      <Animated.View style={{opacity: fadeAnim, flex: 1}}>
-        <Pressable onPress={handlePress} style={styles.card}>
-          <Text>{text}</Text>
-        </Pressable>
-      </Animated.View>
-    </View>
-  );
-};
 
 const FadeAndScaleCard = ({text}) => {
   const fadeAnim = useRef(new Animated.Value(1)).current;
@@ -98,40 +46,7 @@ const FadeAndScaleCard = ({text}) => {
       <Animated.View
         style={{opacity: fadeAnim, flex: 1, transform: [{scale: fadeAnim}]}}>
         <Pressable onPress={handlePress} style={styles.card}>
-          <Text>{text}</Text>
-        </Pressable>
-      </Animated.View>
-    </View>
-  );
-};
-
-const RotateCard = ({text}) => {
-  const rotateAnim = useRef(new Animated.Value(0)).current;
-  const [currentRotation, setRotation] = useState(0);
-
-  const handlePress = () => {
-    console.log('pressed');
-    console.log(rotateAnim);
-    const nextRotation = currentRotation === 0 ? 0.5 : 0;
-    setRotation(nextRotation);
-    Animated.timing(rotateAnim, {
-      toValue: nextRotation,
-      duration: 1000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const spin = rotateAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
-
-  return (
-    <View style={styles.cardContainer}>
-      <Animated.View style={{flex: 1, transform: [{rotate: spin}]}}>
-        <Pressable onPress={handlePress} style={styles.card}>
-          <Text>{text}</Text>
+          <Text style={styles.cardText}>{text}</Text>
         </Pressable>
       </Animated.View>
     </View>
@@ -146,14 +61,14 @@ const FlipCard = ({text, textBack}) => {
 
   const handlePress = () => {
     const nextSide = currentSide === 1 ? 0 : 1;
-    const otherSide = 1 - nextSide;
     setSide(nextSide);
+    const otherSide = 1 - nextSide;
 
     Animated.sequence([
       Animated.timing(flipAnim, {
         toValue: 0,
         duration: 200,
-        easing: Easing.linear,
+        easing: Easing.ease,
         useNativeDriver: true,
       }),
       Animated.timing(frontOpacity, {
@@ -169,7 +84,7 @@ const FlipCard = ({text, textBack}) => {
       Animated.timing(flipAnim, {
         toValue: 1,
         duration: 200,
-        easing: Easing.linear,
+        easing: Easing.ease,
         useNativeDriver: true,
       }),
     ]).start();
@@ -198,7 +113,7 @@ const FlipYCard = ({text, textBack}) => {
   const [currentSide, setSide] = useState(0);
 
   const handlePress = () => {
-    const nextSide = currentSide === 0 ? 0.5 : 0;
+    const nextSide = currentSide === 0 ? 1 : 0;
     setSide(nextSide);
     Animated.timing(flipAnim, {
       toValue: nextSide,
@@ -209,16 +124,16 @@ const FlipYCard = ({text, textBack}) => {
   };
   const spin = flipAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
+    outputRange: ['0deg', '180deg'],
   });
 
   const frontOpacity = flipAnim.interpolate({
-    inputRange: [0, 0.25, 0.251, 0.5],
+    inputRange: [0, 0.5, 0.51, 1],
     outputRange: [1, 1, 0, 0],
   });
 
   const backOpacity = flipAnim.interpolate({
-    inputRange: [0, 0.25, 0.251, 0.5],
+    inputRange: [0, 0.5, 0.51, 1],
     outputRange: [0, 0, 1, 1],
   });
 
@@ -247,16 +162,11 @@ const FlipYCard = ({text, textBack}) => {
 const App = () => {
   return (
     <View style={styles.container}>
-      {/* <View style={styles.row}>
-        <FadeCard text="Card 1" />
-        <FadeAndScaleCard text="Card 2" />
-        <RotateCard text="Card 3" />
-      </View> */}
-      {/* <Modal></Modal> */}
       <View style={styles.row}>
+        {/* <Card text="lol" /> */}
+        <FadeAndScaleCard text="Card 2" />
         <FlipCard text="Press to flip card" textBack="Wow" />
         <FlipYCard text="Press to flip card" textBack="Woah" />
-        {/* <Card text="Card 6" /> */}
       </View>
     </View>
   );
