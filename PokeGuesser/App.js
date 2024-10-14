@@ -7,7 +7,6 @@ import {
   Animated,
   Pressable,
   Easing,
-  Modal,
 } from 'react-native';
 
 const FadeAndScaleCard = ({text}) => {
@@ -164,7 +163,7 @@ const App = () => {
     <View style={styles.container}>
       <View style={styles.row}>
         {/* <Card text="lol" /> */}
-        <FadeAndScaleCard text="Card 2" />
+        <FadeAndScaleCard text="Press to vanish/appear" />
         <FlipCard text="Press to flip card" textBack="Wow" />
         <FlipYCard text="Press to flip card" textBack="Woah" />
       </View>

@@ -63,6 +63,26 @@ app.post("/submit", (req, res) => {
   res.send("Thanks for your message!");
 });
 
+app.get("/getAllPoke", (req, res) => {
+  readall().then((z) => res.send(z));
+});
+
+app.get("/getPoke/:name", (req, res) => {
+  readone(req.params.name)
+    .then((z) => {
+      if (z) {
+        console.log("Response Object:", z); // Log the object you're sending
+        res.json(z); // Send the document as JSON
+      } else {
+        res.status(404).json({ error: "Record not found" });
+      }
+    })
+    .catch((err) => {
+      console.error("Error occurred:", err);
+      res.status(500).json({ error: "Internal server error" });
+    });
+});
+
 //========FUNCTIONS=========
 async function pingdb() {
   try {
@@ -87,5 +107,46 @@ async function addPoke(pokemon) {
     console.log(e);
   } finally {
     await client.close();
+  }
+}
+
+async function readall() {
+  console.log("readall started");
+  const options = {
+    projection: { _id: 1, name: 1 },
+  };
+  try {
+    let arr = new Array();
+    await client.connect();
+    result = client.db("pokeguesser").collection("game").find({}, options);
+    for await (const doc of result) {
+      arr.push(doc);
+    }
+    return arr;
+  } catch (e) {
+    console.log(e);
+  } finally {
+    await client.close();
+  }
+}
+
+async function readone(pokeName) {
+  console.log("readone started");
+  try {
+    await client.connect();
+
+    // Query to find the document by name
+    const result = await client
+      .db("pokeguesser")
+      .collection("game")
+      .findOne({ name: pokeName });
+
+    console.log("Result retrieved:", result); // Log the retrieved result
+
+    return result; // Return only the document
+  } catch (e) {
+    console.error("Error occurred:", e);
+  } finally {
+    await client.close(); // Ensure the client is closed
   }
 }
