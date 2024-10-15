@@ -45,8 +45,8 @@ app.get("/pingdb", (req, res) => {
   pingdb().then((response) => res.send(response));
 });
 
-app.get("/addPokeForm", (req, res) => {
-  res.sendFile(path.join(__dirname, "/views/form.html"));
+app.get("/PokeForm", (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/pokeForm.html"));
 });
 
 app.post("/addPoke", (req, res) => {
@@ -71,7 +71,7 @@ app.get("/getPoke/:name", (req, res) => {
   readone(req.params.name)
     .then((z) => {
       if (z) {
-        console.log("Response Object:", z); // Log the object you're sending
+        // console.log("Response Object:", z); // Log the object you're sending
         res.json(z); // Send the document as JSON
       } else {
         res.status(404).json({ error: "Record not found" });
@@ -81,6 +81,18 @@ app.get("/getPoke/:name", (req, res) => {
       console.error("Error occurred:", err);
       res.status(500).json({ error: "Internal server error" });
     });
+});
+
+app.put("/updatePoke", (req, res) => {
+  console.log("/updatePoke");
+  let pokemon = req.body;
+  updatePoke(pokemon);
+});
+
+app.delete("/deletePoke/:id", (req, res) => {
+  const id = req.params.id;
+  // console.log("/deletepoke " + id);
+  deletePoke(id);
 });
 
 //========FUNCTIONS=========
@@ -141,12 +153,42 @@ async function readone(pokeName) {
       .collection("game")
       .findOne({ name: pokeName });
 
-    console.log("Result retrieved:", result); // Log the retrieved result
+    // console.log("Result retrieved:", result); // Log the retrieved result
 
     return result; // Return only the document
   } catch (e) {
     console.error("Error occurred:", e);
   } finally {
     await client.close(); // Ensure the client is closed
+  }
+}
+
+async function updatePoke(pokemon) {
+  console.log("Updating pokemon by id: " + pokemon._id);
+  try {
+    var filter = { _id: new ObjectId("" + pokemon._id) };
+    let { _id, ...updateFields } = pokemon;
+    var update = {
+      $set: updateFields,
+    };
+    await client.connect();
+    await client.db("pokeguesser").collection("game").updateOne(filter, update);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    client.close();
+  }
+}
+
+async function deletePoke(id) {
+  console.log("Deleting pokemon by id: " + id);
+  try {
+    var deletequery = { _id: new ObjectId("" + id) };
+    await client.connect();
+    await client.db("pokeguesser").collection("game").deleteOne(deletequery);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    client.close();
   }
 }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PokeGuesser - Add Pokemon</title>
+  </head>
+  <body>
+    <h2>Add Pokemon</h2>
+    <form method="POST" action="/submit" id="pokeForm">
+      <div>
+        <input type="text" name="id" placeholder="ID" value="-1"disabled>
+      </div>
+      <div>
+        <input type="text" name="pokemon" placeholder="Pokemon" />
+        <input name="date" type="date">
+      </div>
+      <div>
+        <input name="hint1type" placeholder="Hint 1: Type" />
+        <input name="hint1" placeholder="Hint 1" />
+      </div>
+      <div>
+        <input name="hint2type" placeholder="Hint 2: Type" />
+        <input name="hint2" placeholder="Hint 2" />
+      </div>
+      <div>
+        <input name="hint3type" placeholder="Hint 3: Type" />
+        <input name="hint3" placeholder="Hint 3" />
+      </div>
+      <div>
+        <input name="hint4type" placeholder="Hint 4: Type" />
+        <input name="hint4" placeholder="Hint 4" />
+      </div>
+      <div>
+        <input name="hint5type" placeholder="Hint 5: Type" />
+        <input name="hint5" placeholder="Hint 5" />
+      </div>
+      <div>
+        <input name="hint6type" placeholder="Hint 6: Type" />
+        <input name="hint6" placeholder="Hint 6" />
+      </div>
+      <div>
+        <input name="hint7type" placeholder="Hint 7: Type" />
+        <input name="hint7" placeholder="Hint 7" />
+      </div>
+      <div>
+        <input name="hint8type" placeholder="Hint 8: Type" />
+        <input name="hint8" placeholder="Hint 8" />
+      </div>
+      <div>
+        <input name="hint9type" placeholder="Hint 9: Type" />
+        <input name="hint9" placeholder="Hint 9" />
+      </div>
+      <div>
+        <input type="button" value="Add Pokemon" onclick="addToDb(this.form)" />
+        <input type="button" value="Delete Pokemon" onclick="deletePoke(this.form.id.value)"/>
+        <input type="reset" value="Clear form"/>
+      </div>
+    </form>
+    <div>
+      <form method="POST" id="updateForm">
+        <input name="toUpdate" placeholder="Pokemon to update" />
+        <input type="button" value="Select Pokemon" onclick="loadToUpdate(this.form)" />
+      </form>
+    </div>
+    <div id="pokeList">
+      
+    </div>
+    <script>
+      function addToDb(form) {
+        console.log("addToDb called");
+        let pokemon = new Object();
+        if (form.id.value!=-1) {
+          pokemon._id=form.id.value;
+        }
+        pokemon.name = form.pokemon.value;
+        pokemon.date = form.date.value;
+        pokemon.hint1type = form.hint1type.value;
+        pokemon.hint1 = form.hint1.value;
+        pokemon.hint2type = form.hint2type.value;
+        pokemon.hint2 = form.hint2.value;
+        pokemon.hint3type = form.hint3type.value;
+        pokemon.hint3 = form.hint3.value;
+        pokemon.hint4type = form.hint4type.value;
+        pokemon.hint4 = form.hint4.value;
+        pokemon.hint5type = form.hint5type.value;
+        pokemon.hint5 = form.hint5.value;
+        pokemon.hint6type = form.hint6type.value;
+        pokemon.hint6 = form.hint6.value;
+        pokemon.hint7type = form.hint7type.value;
+        pokemon.hint7 = form.hint7.value;
+        pokemon.hint8type = form.hint8type.value;
+        pokemon.hint8 = form.hint8.value;
+        pokemon.hint9type = form.hint9type.value;
+        pokemon.hint9 = form.hint9.value;
+
+        let jsonPoke = JSON.stringify(pokemon);
+        var xmlhttp = new XMLHttpRequest();
+        if (pokemon._id!=undefined) {
+          xmlhttp.open("PUT", "/updatePoke", true);
+        } else{
+          xmlhttp.open("POST", "/addPoke", true);
+        }
+        xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.send(jsonPoke);
+      }
+
+      function loadToUpdate(form) {
+        console.log("loadToUpdate called");
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var jsonPoke = this.responseText;
+            var pokemon = JSON.parse(jsonPoke);
+            pokeForm.id.value = pokemon._id;
+            pokeForm.pokemon.value = pokemon.name;
+            pokeForm.date.value = pokemon.date;
+            pokeForm.hint1type.value = pokemon.hint1type;
+            pokeForm.hint1.value = pokemon.hint1;
+            pokeForm.hint2type.value = pokemon.hint2type;
+            pokeForm.hint2.value = pokemon.hint2;
+            pokeForm.hint3type.value = pokemon.hint3type;
+            pokeForm.hint3.value = pokemon.hint3;
+            pokeForm.hint4type.value = pokemon.hint4type;
+            pokeForm.hint4.value = pokemon.hint4;
+            pokeForm.hint5type.value = pokemon.hint5type;
+            pokeForm.hint5.value = pokemon.hint5;
+            pokeForm.hint6type.value = pokemon.hint6type;
+            pokeForm.hint6.value = pokemon.hint6;
+            pokeForm.hint7type.value = pokemon.hint7type;
+            pokeForm.hint7.value = pokemon.hint7;
+            pokeForm.hint8type.value = pokemon.hint8type;
+            pokeForm.hint8.value = pokemon.hint8;
+            pokeForm.hint9type.value = pokemon.hint9type;
+            pokeForm.hint9.value = pokemon.hint9;
+            // printFish(x);
+          }
+        };
+        xmlhttp.open("get", "/getPoke/" + form.toUpdate.value, true);
+        // xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.send();
+      }
+
+      function deletePoke(id){
+        console.log("deletePoke" + id);
+        var xmlhttp=new XMLHttpRequest();
+        xmlhttp.open("DELETE", "/deletePoke/" +id, true)
+        xmlhttp.send();
+      }
+
+      function printPoke(data){
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            var jsonPoke = this.responseText;
+            var pokemon = JSON.parse(jsonPoke);
+          }
+        };
+        xmlhttp.open("get", "/getAllPoke", true);
+        xmlhttps.send();
+
+        let list = "<table>";
+        data.forEach(element => {
+          list = list+"<tr><td>" + element.date + "</td><td>" + element.name + "</td></tr>"
+        });
+        document.getElementById("pokeList").innerHTML = list;
+      }
+    </script>
+  </body>
+</html>
