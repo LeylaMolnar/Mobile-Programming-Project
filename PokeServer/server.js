@@ -133,7 +133,8 @@ async function addPoke(pokemon) {
 async function readall() {
   console.log("readall started");
   const options = {
-    projection: { _id: 1, name: 1 },
+    sort: { date: 1 },
+    projection: { _id: 1, date: 1, name: 1 },
   };
   try {
     let arr = new Array();

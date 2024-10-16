@@ -60,9 +60,9 @@
         <input name="toUpdate" placeholder="Pokemon to update" />
         <input type="button" value="Select Pokemon" onclick="loadToUpdate(this.form)" />
       </form>
+      <button onclick="printPoke()">Print all Pokemon</button>
     </div>
     <div id="pokeList">
-      
     </div>
     <script>
       function addToDb(form) {
@@ -146,22 +146,27 @@
         xmlhttp.send();
       }
 
-      function printPoke(data){
+      function printPoke() {
+        console.log("printPoke called");
         var xmlhttp = new XMLHttpRequest();
+        
         xmlhttp.onreadystatechange = function () {
           if (this.readyState == 4 && this.status == 200) {
             var jsonPoke = this.responseText;
             var pokemon = JSON.parse(jsonPoke);
+
+            // Render the table only after data is fetched
+            let list = "<table>";
+            pokemon.forEach(element => {
+              list += "<tr><td>" + element.date + "</td><td>" + element.name + "</td></tr>";
+            });
+            list += "</table>";
+            document.getElementById("pokeList").innerHTML = list;
           }
         };
-        xmlhttp.open("get", "/getAllPoke", true);
-        xmlhttps.send();
 
-        let list = "<table>";
-        data.forEach(element => {
-          list = list+"<tr><td>" + element.date + "</td><td>" + element.name + "</td></tr>"
-        });
-        document.getElementById("pokeList").innerHTML = list;
+        xmlhttp.open("get", "/getAllPoke", true);
+        xmlhttp.send();
       }
     </script>
   </body>
