@@ -40,7 +40,7 @@ app.post("/submit", (req, res) => {
   res.send("Thanks for your message!");
 });
 
-//========ENDPOINTS=========
+//========POKEMON ENDPOINTS=========
 app.get("/pingdb", (req, res) => {
   pingdb().then((response) => res.send(response));
 });
@@ -53,14 +53,6 @@ app.post("/addPoke", (req, res) => {
   console.log("/addPoke");
   let pokemon = req.body;
   addPoke(pokemon).then((response) => res.send(response));
-});
-
-app.post("/submit", (req, res) => {
-  console.log({
-    name: req.body.name,
-    message: req.body.message,
-  });
-  res.send("Thanks for your message!");
 });
 
 app.get("/getAllPoke", (req, res) => {
@@ -111,7 +103,7 @@ app.delete("/deletePoke/:id", (req, res) => {
   deletePoke(id);
 });
 
-//========FUNCTIONS=========
+//========POKEMON FUNCTIONS=========
 async function pingdb() {
   try {
     console.log("pingdb started");
@@ -223,6 +215,104 @@ async function deletePoke(id) {
     var deletequery = { _id: new ObjectId("" + id) };
     await client.connect();
     await client.db("pokeguesser").collection("game").deleteOne(deletequery);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    client.close();
+  }
+}
+
+//========USER ENDPOINTS=========
+app.get("/UserForm", (req, res) => {
+  res.sendFile(path.join(__dirname, "/views/userForm.html"));
+});
+
+app.post("/addUser", (req, res) => {
+  console.log("/addUser");
+  let user = req.body;
+  addUser(user).then((response) => res.send(response));
+});
+
+app.get("/getUser/:username", (req, res) => {
+  readone(req.params.username)
+    .then((z) => {
+      if (z) {
+        // console.log("Response Object:", z); // Log the object you're sending
+        res.json(z); // Send the document as JSON
+      } else {
+        res.status(404).json({ error: "Record not found" });
+      }
+    })
+    .catch((err) => {
+      console.error("Error occurred:", err);
+      res.status(500).json({ error: "Internal server error" });
+    });
+});
+
+app.put("/updateUser", (req, res) => {
+  console.log("/updateUser");
+  let user = req.body;
+  updateUser(user);
+});
+
+app.delete("/deleteUser/:id", (req, res) => {
+  const id = req.params.id;
+  // console.log("/deletepoke " + id);
+  deleteUser(id);
+});
+
+//========USER FUNCTIONS=========
+async function addUser(user) {
+  console.log("addUser function called");
+  try {
+    await client.connect();
+    await client.db("pokeguesser").collection("user").insertOne(user);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    await client.close();
+  }
+}
+
+async function readone(username) {
+  console.log("readone started");
+  try {
+    await client.connect();
+    const result = await client
+      .db("pokeguesser")
+      .collection("user")
+      .findOne({ username: username });
+    return result;
+  } catch (e) {
+    console.error("Error occurred:", e);
+  } finally {
+    await client.close();
+  }
+}
+
+async function updateUser(user) {
+  console.log("Updating user by id: " + user._id);
+  try {
+    var filter = { _id: new ObjectId("" + user._id) };
+    let { _id, ...updateFields } = user;
+    var update = {
+      $set: updateFields,
+    };
+    await client.connect();
+    await client.db("pokeguesser").collection("user").updateOne(filter, update);
+  } catch (e) {
+    console.log(e);
+  } finally {
+    client.close();
+  }
+}
+
+async function deleteUser(id) {
+  console.log("Deleting user by id: " + id);
+  try {
+    var deletequery = { _id: new ObjectId("" + id) };
+    await client.connect();
+    await client.db("pokeguesser").collection("user").deleteOne(deletequery);
   } catch (e) {
     console.log(e);
   } finally {
