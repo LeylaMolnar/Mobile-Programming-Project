@@ -83,6 +83,22 @@ app.get("/getPoke/:name", (req, res) => {
     });
 });
 
+app.get("/getPokeByDate/:date", (req, res) => {
+  readonebydate(req.params.date)
+    .then((z) => {
+      if (z) {
+        // console.log("Response Object:", z); // Log the object you're sending
+        res.json(z); // Send the document as JSON
+      } else {
+        res.status(404).json({ error: "Record not found" });
+      }
+    })
+    .catch((err) => {
+      console.error("Error occurred:", err);
+      res.status(500).json({ error: "Internal server error" });
+    });
+});
+
 app.put("/updatePoke", (req, res) => {
   console.log("/updatePoke");
   let pokemon = req.body;
@@ -152,6 +168,27 @@ async function readone(pokeName) {
       .db("pokeguesser")
       .collection("game")
       .findOne({ name: pokeName });
+
+    // console.log("Result retrieved:", result); // Log the retrieved result
+
+    return result; // Return only the document
+  } catch (e) {
+    console.error("Error occurred:", e);
+  } finally {
+    await client.close(); // Ensure the client is closed
+  }
+}
+
+async function readonebydate(pokeDate) {
+  console.log("readonebydate started");
+  try {
+    await client.connect();
+
+    // Query to find the document by name
+    const result = await client
+      .db("pokeguesser")
+      .collection("game")
+      .findOne({ date: pokeDate });
 
     // console.log("Result retrieved:", result); // Log the retrieved result
 
