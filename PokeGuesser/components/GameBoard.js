@@ -71,57 +71,24 @@ const FlipYCard = ({textFront, textBack, cardID}) => {
 const GameBoard = props => {
   return (
     <View style={styles.gameBoard}>
-      <View style={styles.row}>
-        <FlipYCard
-          textFront={props.hints.hint1type}
-          textBack={props.hints.hint1}
-          cardID={1}
-        />
-        <FlipYCard
-          textFront={props.hints.hint2type}
-          textBack={props.hints.hint2}
-          cardID={2}
-        />
-        <FlipYCard
-          textFront={props.hints.hint3type}
-          textBack={props.hints.hint3}
-          cardID={3}
-        />
+      <View>
+        <Text>PokeGuesser #8</Text>
       </View>
-      <View style={styles.row}>
-        <FlipYCard
-          textFront={props.hints.hint4type}
-          textBack={props.hints.hint4}
-          cardID={4}
-        />
-        <FlipYCard
-          textFront={props.hints.hint5type}
-          textBack={props.hints.hint5}
-          cardID={5}
-        />
-        <FlipYCard
-          textFront={props.hints.hint6type}
-          textBack={props.hints.hint6}
-          cardID={6}
-        />
-      </View>
-      <View style={styles.row}>
-        <FlipYCard
-          textFront={props.hints.hint7type}
-          textBack={props.hints.hint7}
-          cardID={7}
-        />
-        <FlipYCard
-          textFront={props.hints.hint8type}
-          textBack={props.hints.hint8}
-          cardID={8}
-        />
-        <FlipYCard
-          textFront={props.hints.hint9type}
-          textBack={props.hints.hint9}
-          cardID={9}
-        />
-      </View>
+      {[0, 1, 2].map(row => (
+        <View key={row} style={styles.row}>
+          {[1, 2, 3].map(col => {
+            const cardID = row * 3 + col;
+            return (
+              <FlipYCard
+                key={cardID}
+                textFront={props.hints[`hint${cardID}type`]}
+                textBack={props.hints[`hint${cardID}`]}
+                cardID={cardID}
+              />
+            );
+          })}
+        </View>
+      ))}
     </View>
   );
 };
