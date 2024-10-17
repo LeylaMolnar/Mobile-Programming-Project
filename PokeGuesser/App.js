@@ -5,7 +5,7 @@ import GameBoard from './components/GameBoard';
 
 const App = () => {
   let currentDate = new Date().toJSON().slice(0, 10);
-  console.log(currentDate); // "2022-06-17"
+  console.log(currentDate);
 
   const [currentPoke, setPoke] = useState();
   const [loading, setLoading] = useState(true); // State to manage loading
