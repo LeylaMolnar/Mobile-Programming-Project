@@ -1,14 +1,6 @@
 import React, {useRef, useState} from 'react';
 
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  Animated,
-  Pressable,
-  Easing,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable} from 'react-native';
 
 const keys = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
@@ -16,8 +8,12 @@ const keys = [
   ['-', 'z', 'x', 'c', 'v', 'b', 'n', 'm', "'", 'X'],
 ];
 
-const Input = () => {
-  const [text, onChangeText] = React.useState('Guess goes here');
+const Input = props => {
+  const [text, setText] = React.useState('');
+
+  const inputHandler = char => {
+    setText(text + char);
+  };
 
   return (
     <View style={styles.inputContainer}>
@@ -31,29 +27,33 @@ const Input = () => {
               <Pressable
                 key={i * 20 + j}
                 style={styles.key}
-                onPress={() => console.log({key})}>
+                onPress={() => inputHandler({key}.key)}>
                 <Text style={styles.keyCharacter}>{key}</Text>
               </Pressable>
             ))}
           </View>
         ))}
         <View style={[styles.row, {justifyContent: 'flex-end'}]}>
-          <Pressable style={styles.key}>
+          <Pressable style={styles.key} onPress={() => inputHandler('.')}>
             <Text style={styles.keyCharacter}>.</Text>
           </Pressable>
-          <Pressable style={styles.key}>
+          <Pressable style={styles.key} onPress={() => inputHandler(':')}>
             <Text style={styles.keyCharacter}>:</Text>
           </Pressable>
-          <Pressable style={[styles.key, {width: 150}]}>
+          <Pressable
+            style={[styles.key, {width: 150}]}
+            onPress={() => inputHandler(' ')}>
             <Text style={styles.keyCharacter}>Space</Text>
           </Pressable>
-          <Pressable style={styles.key}>
+          <Pressable style={styles.key} onPress={() => inputHandler('2')}>
             <Text style={styles.keyCharacter}>2</Text>
           </Pressable>
-          <Pressable style={styles.key}>
+          <Pressable style={styles.key} onPress={() => inputHandler('é')}>
             <Text style={styles.keyCharacter}>é</Text>
           </Pressable>
-          <Pressable style={[styles.key, {width: 60}]}>
+          <Pressable
+            style={[styles.key, {width: 60}]}
+            onPress={() => props.onMakeGuess(text)}>
             <Text style={styles.keyCharacter}>Enter</Text>
           </Pressable>
         </View>
