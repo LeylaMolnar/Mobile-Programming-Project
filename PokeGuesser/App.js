@@ -1,6 +1,12 @@
 import React, {useRef, useState, useEffect} from 'react';
 
-import {StyleSheet, View, Button, Text} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Button,
+  Text,
+  DrawerLayoutAndroid,
+} from 'react-native';
 import GameBoard from './components/GameBoard';
 import Input from './components/Input';
 import Header from './components/Header';
@@ -90,23 +96,40 @@ const App = () => {
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Header></Header>
-      </View>
-      {/* <Button onPress={fetchPoke} title="readPoke" /> */}
-      <View style={styles.board}>
-        {loading ? (
-          <Text>Loading...</Text> // Show loading indicator while data is being fetched
-        ) : (
-          <GameBoard hints={currentPoke} /> // Render GameBoard only when data is ready
-        )}
-      </View>
-      <View style={styles.input}>
-        <Input onMakeGuess={text => makeGuess(currentPoke, text)} />
-      </View>
+  //Menu
+  const drawer = useRef(null);
+  const navigationView = () => (
+    <View style={[styles.container, styles.navigationContainer]}>
+      <Text style={styles.paragraph}>I'm in the Drawer!</Text>
+      <Button
+        title="Close drawer"
+        onPress={() => drawer.current.closeDrawer()}
+      />
     </View>
+  );
+
+  return (
+    <DrawerLayoutAndroid
+      ref={drawer}
+      drawerWidth={300}
+      renderNavigationView={navigationView}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Header onMenuOpen={() => drawer.current.openDrawer()} />
+        </View>
+        {/* <Button onPress={fetchPoke} title="readPoke" /> */}
+        <View style={styles.board}>
+          {loading ? (
+            <Text>Loading...</Text> // Show loading indicator while data is being fetched
+          ) : (
+            <GameBoard hints={currentPoke} /> // Render GameBoard only when data is ready
+          )}
+        </View>
+        <View style={styles.input}>
+          <Input onMakeGuess={text => makeGuess(currentPoke, text)} />
+        </View>
+      </View>
+    </DrawerLayoutAndroid>
   );
 };
 

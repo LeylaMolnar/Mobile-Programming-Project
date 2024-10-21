@@ -8,101 +8,72 @@ import {
   Image,
   Modal,
   DrawerLayoutAndroid,
-  Button,
 } from 'react-native';
 
 const Header = props => {
   const [tutorialVisible, setTutorialVisible] = useState(false);
 
-  const drawer = useRef(null);
-  // const [drawerPosition, setDrawerPosition] = useState('left');
-  // const changeDrawerPosition = () => {
-  //   if (drawerPosition === 'left') {
-  //     setDrawerPosition('right');
-  //   } else {
-  //     setDrawerPosition('left');
-  //   }
-  // };
-
-  const navigationView = () => (
-    <View style={[styles.container, styles.navigationContainer]}>
-      <Text style={styles.paragraph}>I'm in the Drawer!</Text>
-      <Button
-        title="Close drawer"
-        onPress={() => drawer.current.closeDrawer()}
-      />
-    </View>
-  );
-
   return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={300}
-      // drawerPosition={drawerPosition}
-      renderNavigationView={navigationView}>
-      <View style={styles.headerContainer}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={tutorialVisible}
-          onRequestClose={() => {
-            // Alert.alert('Modal has been closed.');
-            setTutorialVisible(!tutorialVisible);
-          }}>
-          <View style={styles.popUp}>
-            <View style={styles.popUpWindow}>
-              <Text style={styles.modalText}>Hello World!</Text>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setTutorialVisible(!tutorialVisible)}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
-              </Pressable>
-            </View>
+    <View style={styles.headerContainer}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={tutorialVisible}
+        onRequestClose={() => {
+          // Alert.alert('Modal has been closed.');
+          setTutorialVisible(!tutorialVisible);
+        }}>
+        <View style={styles.popUp}>
+          <View style={styles.popUpWindow}>
+            <Text style={styles.modalText}>Hello World!</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setTutorialVisible(!tutorialVisible)}>
+              <Text style={styles.textStyle}>Hide Modal</Text>
+            </Pressable>
           </View>
-        </Modal>
+        </View>
+      </Modal>
 
-        <View style={styles.hamburger}>
-          <Pressable
-            style={styles.press}
-            onPress={() => drawer.current.openDrawer()}>
-            <Image
-              source={require('../assets/circle.png')}
-              style={styles.imageSize}
-            />
-          </Pressable>
-        </View>
-        <View style={styles.logIn}>
-          <Pressable style={styles.press}>
-            <Image
-              source={require('../assets/circle.png')}
-              style={styles.imageSize}
-            />
-          </Pressable>
-        </View>
-        <View style={styles.logo}>
+      <View style={styles.hamburger}>
+        <Pressable style={styles.press} onPress={() => props.onMenuOpen()}>
           <Image
             source={require('../assets/circle.png')}
             style={styles.imageSize}
           />
-        </View>
-        <View style={styles.streak}>
-          <Image
-            source={require('../assets/circle.png')}
-            style={styles.imageSize}
-          />
-        </View>
-        <View style={styles.tutorial}>
-          <Pressable
-            style={styles.press}
-            onPress={() => setTutorialVisible(true)}>
-            <Image
-              source={require('../assets/circle.png')}
-              style={styles.imageSize}
-            />
-          </Pressable>
-        </View>
+        </Pressable>
       </View>
-    </DrawerLayoutAndroid>
+      <View style={styles.logIn}>
+        <Pressable style={styles.press}>
+          <Image
+            source={require('../assets/circle.png')}
+            style={styles.imageSize}
+          />
+        </Pressable>
+      </View>
+      <View style={styles.logo}>
+        <Image
+          source={require('../assets/circle.png')}
+          style={styles.imageSize}
+        />
+      </View>
+      <View style={styles.streak}>
+        <Image
+          source={require('../assets/circle.png')}
+          style={styles.imageSize}
+        />
+      </View>
+      <View style={styles.tutorial}>
+        <Pressable
+          style={styles.press}
+          onPress={() => setTutorialVisible(true)}>
+          <Image
+            source={require('../assets/circle.png')}
+            style={styles.imageSize}
+          />
+        </Pressable>
+      </View>
+    </View>
   );
 };
 
