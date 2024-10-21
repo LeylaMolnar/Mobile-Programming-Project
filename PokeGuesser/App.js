@@ -3,6 +3,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import {StyleSheet, View, Button, Text} from 'react-native';
 import GameBoard from './components/GameBoard';
 import Input from './components/Input';
+import Header from './components/Header';
 
 const App = () => {
   //LOADING DAILY POKE
@@ -91,7 +92,9 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <View style={styles.header}>
+        <Header></Header>
+      </View>
       {/* <Button onPress={fetchPoke} title="readPoke" /> */}
       <View style={styles.board}>
         {loading ? (
