@@ -109,6 +109,7 @@ const App = () => {
   );
 
   return (
+    //Side menu
     <DrawerLayoutAndroid
       ref={drawer}
       drawerWidth={300}

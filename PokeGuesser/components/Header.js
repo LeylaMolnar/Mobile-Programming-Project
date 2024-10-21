@@ -1,14 +1,6 @@
 import React, {useRef, useState} from 'react';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  Image,
-  Modal,
-  DrawerLayoutAndroid,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image, Modal} from 'react-native';
 
 const Header = props => {
   const [tutorialVisible, setTutorialVisible] = useState(false);
