@@ -12,7 +12,11 @@ const Input = props => {
   const [text, setText] = React.useState('');
 
   const inputHandler = char => {
-    setText(text + char);
+    if (char === 'X') {
+      setText(text.substring(0, text.length - 1));
+    } else {
+      setText(text + char);
+    }
   };
 
   return (
@@ -28,7 +32,11 @@ const Input = props => {
                 key={i * 20 + j}
                 style={styles.key}
                 onPress={() => inputHandler({key}.key)}>
-                <Text style={styles.keyCharacter}>{key}</Text>
+                {key === 'X' ? (
+                  <Text style={styles.keyCharacter}>⌫</Text>
+                ) : (
+                  <Text style={styles.keyCharacter}>{key}</Text>
+                )}
               </Pressable>
             ))}
           </View>
@@ -65,12 +73,18 @@ const Input = props => {
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
+    // flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  inputField: {
+    flex: 1,
   },
   input: {
     textAlign: 'center',
   },
   keyboard: {
-    flex: 1,
+    flex: 6,
+    // alignSelf: 'flex-end',
   },
   row: {
     // flex: 1,
