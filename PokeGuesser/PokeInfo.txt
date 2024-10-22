@@ -1,0 +1,19 @@
+Meowth
+region: kanto
+class: scratch cat Pokémon
+dex entry: Appears to be more active at night. It loves round and shiny things. It can't stop from picking them up. 
+appearance: feline pokemon
+special form: regional forms
+Moves: Pickup, technician
+anime appearance: it is the first Pokémon in Pokémon the Series depicted with the ability to talk 
+trivia: this pokemon is the only one with multiple regional forms and a gigantamax form
+
+
+greninja
+class: ninja Pokémon
+type: water & dark
+appearance: bipedal frog-like
+moves: torrent, protean
+dex entry: It creates throwing stars out of compressed water. When it spins them and throws them at high speed, these stars can split metal in two. 
+trivia: It is the only Pokémon playable in Super Smash Bros. Ultimate that is unavailable in a Generation VIII core series game.
+anime appearance: appeared in Diancie and the Cocoon of Destruction, under the ownership of Riot.
