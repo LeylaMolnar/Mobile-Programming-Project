@@ -22,7 +22,7 @@ const Input = props => {
   return (
     <View style={[styles.inputContainer, {backgroundColor: props.theme[4]}]}>
       <View style={styles.inputField}>
-        <Text style={styles.input}>{text}</Text>
+        <Text style={[styles.input, {color: props.theme[1]}]}>{text}</Text>
       </View>
       <View style={styles.keyboard}>
         {keys.map((row, i) => (
@@ -105,6 +105,10 @@ const styles = StyleSheet.create({
   },
   input: {
     textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 24,
+    fontFamily: 'roboto',
+    fontVariant: 'small-caps',
   },
   keyboard: {
     flex: 6,

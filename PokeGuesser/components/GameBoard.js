@@ -7,17 +7,39 @@ import {
   Animated,
   Pressable,
   Easing,
+  Image,
 } from 'react-native';
 
 let nextCard = 1;
 
-const FlipYCard = ({textFront, textBack, cardID, theme}) => {
+const images = {
+  snorlax: require('../assets/snorlaxShadow.png'),
+  snorlaxEvo: require('../assets/SecondofTwo.png'),
+  anorith: require('../assets/anorithShadow.png'),
+  anorithEvo: require('../assets/FirstofTwo.png'),
+  duosion: require('../assets/snorlaxShadow.png'),
+  duosionEvo: require('../assets/SecondofThree.png'),
+  gardevoir: require('../assets/gardevoirShadow.png'),
+  gardevoirEvo: require('../assets/ThirdBranch.png'),
+  gastly: require('../assets/gastlyShadow.png'),
+  gastlyEvo: require('../assets/FirstofThree.png'),
+  greninja: require('../assets/greninjaShadow.png'),
+  greninjaEvo: require('../assets/ThirdofThree.png'),
+  snom: require('../assets/snomShadow.png'),
+  snomEvo: require('../assets/FirstofTwo.png'),
+};
+
+const FlipYCard = ({textFront, textBack, cardID, pokemon, theme}) => {
   const flipAnim = useRef(new Animated.Value(0)).current;
   const [currentSide, setSide] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handlePress = () => {
+    console.log(pokemon.toLowerCase());
+
+    console.log('card pressed' + cardID);
     if (nextCard == cardID) {
+      console.log('correct card pressed');
       setIsDisabled(true);
       nextCard++;
       const nextSide = currentSide === 0 ? 1 : 0;
@@ -47,36 +69,45 @@ const FlipYCard = ({textFront, textBack, cardID, theme}) => {
 
   return (
     <View style={styles.cardContainer}>
-      <Animated.View style={{flex: 1, transform: [{rotateY: spin}]}}>
-        <Animated.View
-          style={[
-            styles.card,
-            {
-              opacity: frontOpacity,
-              backgroundColor: theme[2],
-              borderColor: theme[0],
-            },
-          ]}>
-          <Text style={styles.cardText}>{textFront}</Text>
+      <Pressable disabled={isDisabled} onPress={handlePress} style={{flex: 1}}>
+        <Animated.View style={{flex: 1, transform: [{rotateY: spin}]}}>
+          <Animated.View
+            style={[
+              styles.card,
+              {
+                opacity: frontOpacity,
+                backgroundColor: theme[2],
+                borderColor: theme[0],
+              },
+            ]}>
+            <Text style={styles.cardText}>{textFront}</Text>
+          </Animated.View>
+          <Animated.View
+            style={[
+              styles.cardBack,
+              {
+                opacity: backOpacity,
+                transform: [{rotateY: '180deg'}],
+                backgroundColor: theme[3],
+                borderColor: theme[1],
+              },
+            ]}>
+            {textBack === 'pic1' ? (
+              <Image
+                source={images[pokemon.toLowerCase() + 'Evo']} // Replace with the correct path for pic1
+                style={styles.cardImage} // Add styling for the image
+              />
+            ) : textBack === 'pic2' ? (
+              <Image
+                source={images[pokemon.toLowerCase()]} // Replace with the correct path for pic2
+                style={styles.cardImage}
+              />
+            ) : (
+              <Text style={styles.cardText}>{textBack}</Text>
+            )}
+          </Animated.View>
         </Animated.View>
-        <Animated.View
-          style={[
-            styles.cardBack,
-            {
-              opacity: backOpacity,
-              transform: [{rotateY: '180deg'}],
-              backgroundColor: theme[3],
-              borderColor: theme[1],
-            },
-          ]}>
-          <Text style={styles.cardText}>{textBack}</Text>
-        </Animated.View>
-        <Pressable
-          disabled={isDisabled}
-          onPress={handlePress}
-          style={{width: '100%', height: '100%'}}
-        />
-      </Animated.View>
+      </Pressable>
     </View>
   );
 };
@@ -85,7 +116,9 @@ const GameBoard = props => {
   return (
     <View style={[styles.gameBoard, {backgroundColor: props.theme[4]}]}>
       <View>
-        <Text>PokeGuesser #8</Text>
+        <Text style={[styles.title, {color: props.theme[1]}]}>
+          PokeGuesser #8
+        </Text>
       </View>
       {[0, 1, 2].map(row => (
         <View key={row} style={styles.row}>
@@ -97,6 +130,7 @@ const GameBoard = props => {
                 textFront={props.hints[`hint${cardID}type`]}
                 textBack={props.hints[`hint${cardID}`]}
                 cardID={cardID}
+                pokemon={props.hints.name}
                 theme={props.theme}
               />
             );
@@ -111,13 +145,21 @@ const styles = StyleSheet.create({
   gameBoard: {
     flex: 1,
   },
+  title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 24,
+    fontFamily: 'roboto',
+    margin: 10,
+  },
+
   row: {
     flex: 1,
     flexDirection: 'row',
   },
   cardContainer: {
     flex: 1,
-    padding: 10,
+    padding: 5,
   },
   card: {
     flex: 1,
@@ -126,6 +168,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 10,
     borderWidth: 5,
   },
@@ -136,11 +179,18 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 10,
     borderWidth: 5,
   },
   cardText: {
     textAlign: 'center',
+  },
+  cardImage: {
+    flex: 1,
+    width: '90%',
+    height: '90%',
+    resizeMode: 'contain',
   },
 });
 
