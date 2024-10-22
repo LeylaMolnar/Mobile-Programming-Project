@@ -11,7 +11,7 @@ import {
 
 let nextCard = 1;
 
-const FlipYCard = ({textFront, textBack, cardID}) => {
+const FlipYCard = ({textFront, textBack, cardID, theme}) => {
   const flipAnim = useRef(new Animated.Value(0)).current;
   const [currentSide, setSide] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -48,13 +48,26 @@ const FlipYCard = ({textFront, textBack, cardID}) => {
   return (
     <View style={styles.cardContainer}>
       <Animated.View style={{flex: 1, transform: [{rotateY: spin}]}}>
-        <Animated.View style={[styles.card, {opacity: frontOpacity}]}>
+        <Animated.View
+          style={[
+            styles.card,
+            {
+              opacity: frontOpacity,
+              backgroundColor: theme[2],
+              borderColor: theme[0],
+            },
+          ]}>
           <Text style={styles.cardText}>{textFront}</Text>
         </Animated.View>
         <Animated.View
           style={[
             styles.cardBack,
-            {opacity: backOpacity, transform: [{rotateY: '180deg'}]},
+            {
+              opacity: backOpacity,
+              transform: [{rotateY: '180deg'}],
+              backgroundColor: theme[3],
+              borderColor: theme[1],
+            },
           ]}>
           <Text style={styles.cardText}>{textBack}</Text>
         </Animated.View>
@@ -70,7 +83,7 @@ const FlipYCard = ({textFront, textBack, cardID}) => {
 
 const GameBoard = props => {
   return (
-    <View style={styles.gameBoard}>
+    <View style={[styles.gameBoard, {backgroundColor: props.theme[4]}]}>
       <View>
         <Text>PokeGuesser #8</Text>
       </View>
@@ -84,6 +97,7 @@ const GameBoard = props => {
                 textFront={props.hints[`hint${cardID}type`]}
                 textBack={props.hints[`hint${cardID}`]}
                 cardID={cardID}
+                theme={props.theme}
               />
             );
           })}
@@ -107,7 +121,7 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    backgroundColor: 'green',
+    // backgroundColor: 'green',
     position: 'absolute',
     width: '100%',
     height: '100%',
@@ -117,7 +131,7 @@ const styles = StyleSheet.create({
   },
   cardBack: {
     flex: 1,
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     position: 'absolute',
     width: '100%',
     height: '100%',

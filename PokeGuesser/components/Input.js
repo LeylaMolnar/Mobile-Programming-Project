@@ -20,7 +20,7 @@ const Input = props => {
   };
 
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, {backgroundColor: props.theme[4]}]}>
       <View style={styles.inputField}>
         <Text style={styles.input}>{text}</Text>
       </View>
@@ -30,39 +30,63 @@ const Input = props => {
             {row.map((key, j) => (
               <Pressable
                 key={i * 20 + j}
-                style={styles.key}
+                style={[styles.key, {backgroundColor: props.theme[1]}]}
                 onPress={() => inputHandler({key}.key)}>
                 {key === 'X' ? (
-                  <Text style={styles.keyCharacter}>⌫</Text>
+                  <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
+                    ⌫
+                  </Text>
                 ) : (
-                  <Text style={styles.keyCharacter}>{key}</Text>
+                  <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
+                    {key}
+                  </Text>
                 )}
               </Pressable>
             ))}
           </View>
         ))}
         <View style={[styles.row, {justifyContent: 'flex-end'}]}>
-          <Pressable style={styles.key} onPress={() => inputHandler('.')}>
-            <Text style={styles.keyCharacter}>.</Text>
-          </Pressable>
-          <Pressable style={styles.key} onPress={() => inputHandler(':')}>
-            <Text style={styles.keyCharacter}>:</Text>
+          <Pressable
+            style={[styles.key, {backgroundColor: props.theme[1]}]}
+            onPress={() => inputHandler('.')}>
+            <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
+              .
+            </Text>
           </Pressable>
           <Pressable
-            style={[styles.key, {width: 150}]}
+            style={[styles.key, {backgroundColor: props.theme[1]}]}
+            onPress={() => inputHandler(':')}>
+            <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
+              :
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.key, {width: 150, backgroundColor: props.theme[1]}]}
             onPress={() => inputHandler(' ')}>
-            <Text style={styles.keyCharacter}>Space</Text>
-          </Pressable>
-          <Pressable style={styles.key} onPress={() => inputHandler('2')}>
-            <Text style={styles.keyCharacter}>2</Text>
-          </Pressable>
-          <Pressable style={styles.key} onPress={() => inputHandler('é')}>
-            <Text style={styles.keyCharacter}>é</Text>
+            <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
+              Space
+            </Text>
           </Pressable>
           <Pressable
-            style={[styles.key, {width: 60}]}
+            style={[styles.key, {backgroundColor: props.theme[1]}]}
+            onPress={() => inputHandler('2')}>
+            <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
+              2
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.key, {backgroundColor: props.theme[1]}]}
+            onPress={() => inputHandler('é')}>
+            <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
+              é
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[styles.key, {width: 60, backgroundColor: props.theme[1]}]}
             onPress={() => props.onMakeGuess(text)}>
-            <Text style={styles.keyCharacter}>Enter</Text>
+            <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
+              Enter
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -89,7 +113,7 @@ const styles = StyleSheet.create({
   row: {
     // flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     justifyContent: 'center',
     // marginTop: 5,
   },

@@ -60,7 +60,8 @@ app.get("/getAllPoke", (req, res) => {
 });
 
 app.get("/getPoke/:name", (req, res) => {
-  readone(req.params.name)
+  console.log("/getpoke/" + req.params.name);
+  readonepoke(req.params.name)
     .then((z) => {
       if (z) {
         // console.log("Response Object:", z); // Log the object you're sending
@@ -104,19 +105,19 @@ app.delete("/deletePoke/:id", (req, res) => {
 });
 
 //========POKEMON FUNCTIONS=========
-async function pingdb() {
-  try {
-    console.log("pingdb started");
-    await client.connect();
-    await client.db("pokedb").command({ ping: 1 });
-    console.log("Ping succeeded");
-    return "woah";
-  } catch (e) {
-    return e;
-  } finally {
-    await client.close();
-  }
-}
+// async function pingdb() {
+//   try {
+//     console.log("pingdb started");
+//     await client.connect();
+//     await client.db("pokedb").command({ ping: 1 });
+//     console.log("Ping succeeded");
+//     return "woah";
+//   } catch (e) {
+//     return e;
+//   } finally {
+//     await client.close();
+//   }
+// }
 
 async function addPoke(pokemon) {
   console.log("addPoke function called");
@@ -151,18 +152,19 @@ async function readall() {
   }
 }
 
-async function readone(pokeName) {
-  console.log("readone started");
+async function readonepoke(pokeName) {
+  console.log("readonepoke started (pokemon)");
   try {
     await client.connect();
 
+    console.log(pokeName);
     // Query to find the document by name
     const result = await client
       .db("pokeguesser")
       .collection("game")
       .findOne({ name: pokeName });
 
-    // console.log("Result retrieved:", result); // Log the retrieved result
+    console.log("Result retrieved:", result); // Log the retrieved result
 
     return result; // Return only the document
   } catch (e) {
@@ -235,7 +237,7 @@ app.post("/addUser", (req, res) => {
 });
 
 app.get("/getUser/:username", (req, res) => {
-  readone(req.params.username)
+  readoneuser(req.params.username)
     .then((z) => {
       if (z) {
         // console.log("Response Object:", z); // Log the object you're sending
@@ -275,8 +277,8 @@ async function addUser(user) {
   }
 }
 
-async function readone(username) {
-  console.log("readone started");
+async function readoneuser(username) {
+  console.log("readoneuser started");
   try {
     await client.connect();
     const result = await client

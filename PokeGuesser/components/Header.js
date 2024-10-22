@@ -6,7 +6,7 @@ const Header = props => {
   const [tutorialVisible, setTutorialVisible] = useState(false);
 
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, {backgroundColor: props.theme[4]}]}>
       <Modal
         animationType="fade"
         transparent={true}
@@ -88,25 +88,20 @@ const styles = StyleSheet.create({
   },
   hamburger: {
     flex: 1,
-    backgroundColor: 'blue',
   },
   logIn: {
     flex: 1,
-    backgroundColor: 'green',
   },
   logo: {
     flex: 1,
-    backgroundColor: 'blue',
     marginRight: 40,
     marginLeft: 40,
   },
   streak: {
     flex: 1,
-    backgroundColor: 'green',
   },
   tutorial: {
     flex: 1,
-    backgroundColor: 'blue',
   },
   popUp: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
