@@ -15,14 +15,14 @@ import Header from './components/Header';
 
 const themes = [
   ['#332011', '#633C15', '#C5915D', '#EFDBB6', '#FCF3E4'], //Eevee
-  ['#E3BE66', '#B68933', '#6BC399', '#89D89B', '#F2E7A6'], //Leafeon
+  ['#E3BE66', '#B68933', '#89D89B', '#F2E7A6', '#6BC399'], //Leafeon 
   ['#261D2D', '#57346F', '#E7D94D', '#EFF06E', '#F9F8E5'], //Jolteon
-  ['#107496', '#114E67', '#419DBF', '#84DEFF', '#FFE6A4', '#D9D9D9'], //Vaporeon
-  ['#742119', '#C7A66A', '#D84254', '#E1C08D', '#F6734A'], //Flareon
-  ['#363F44', '#414E53', '#4C6180', '#DE634D', '#EFCB69'], //Umbreon
-  ['#5872A6', '#726CA8', '#C64863', '#D9BAD2', '#E4CDDD'], //Espeon
-  ['#6E82B7', '#95DAF8', '#F492A5', '#F7E8D8', '#F9CBD0'], //Sylveon
-  ['#2B595E', '#428795', '#4D7E93', '#92CCDB', '#C5E7E9'], //Glaceon
+  ['#84DEFF', '#114E67', '#419DBF', '#FFE6A4', '#107496', '#D9D9D9'], //Vaporeon 
+  ['#C7A66A', '#E1C08D', '#D84254', '#742119', '#F6734A'], //Flareon check flip
+  ['#DE634D', '#363F44', '#4C6180', '#EFCB69', '#414E53'], //Umbreon 
+  ['#5872A6', '#726CA8', '#C64863', '#D9BAD2', '#AE919D'], //Espeon
+  ['#95DAF8', '#6E82B7', '#F9CBD0', '#F7E8D8', '#F492A5'], //Sylveon 
+  ['#2B595E', '#428795', '#4D7E93', '#92CCDB', '#C5E7E9'] //Glaceon
 ];
 
 const App = () => {
