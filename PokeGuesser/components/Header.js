@@ -6,7 +6,7 @@ const Header = props => {
   const [tutorialVisible, setTutorialVisible] = useState(false);
 
   return (
-    <View style={[styles.headerContainer, {backgroundColor: props.theme[4]}]}>
+    <View style={[styles.headerContainer, {backgroundColor: props.theme[1]}]}>
       <Modal
         animationType="fade"
         transparent={true}
@@ -38,7 +38,7 @@ const Header = props => {
       <View style={styles.logIn}>
         <Pressable style={styles.press}>
           <Image
-            source={require('../assets/circle.png')}
+            source={require('../assets/profile.png')}
             style={styles.imageSize}
           />
         </Pressable>
@@ -51,7 +51,7 @@ const Header = props => {
       </View>
       <View style={styles.streak}>
         <Image
-          source={require('../assets/circle.png')}
+          source={require('../assets/fire.png')}
           style={styles.imageSize}
         />
       </View>

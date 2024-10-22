@@ -18,7 +18,7 @@ const themes = [
 
 const App = () => {
   //HANDLING THEME
-  const activeTheme = themes[1];
+  const activeTheme = themes[0];
 
   //LOADING DAILY POKE
   let currentDate = new Date().toJSON().slice(0, 10);
