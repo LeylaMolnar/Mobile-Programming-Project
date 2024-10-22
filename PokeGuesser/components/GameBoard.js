@@ -29,13 +29,21 @@ const images = {
   snomEvo: require('../assets/FirstofTwo.png'),
 };
 
-const FlipYCard = ({textFront, textBack, cardID, pokemon, theme}) => {
+const FlipYCard = ({
+  textFront,
+  textBack,
+  cardID,
+  pokemon,
+  onHintsRevealed,
+  theme,
+}) => {
   const flipAnim = useRef(new Animated.Value(0)).current;
   const [currentSide, setSide] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handlePress = () => {
     console.log(pokemon.toLowerCase());
+    onHintsRevealed(nextCard);
 
     console.log('card pressed' + cardID);
     if (nextCard == cardID) {
@@ -132,6 +140,7 @@ const GameBoard = props => {
                 cardID={cardID}
                 pokemon={props.hints.name}
                 theme={props.theme}
+                onHintsRevealed={() => props.onHintsRevealed(nextCard)}
               />
             );
           })}
@@ -152,7 +161,6 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto',
     margin: 10,
   },
-
   row: {
     flex: 1,
     flexDirection: 'row',

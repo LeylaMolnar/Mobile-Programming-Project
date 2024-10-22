@@ -6,6 +6,8 @@ import {
   Button,
   Text,
   DrawerLayoutAndroid,
+  Modal,
+  Pressable,
 } from 'react-native';
 import GameBoard from './components/GameBoard';
 import Input from './components/Input';
@@ -25,7 +27,7 @@ const themes = [
 
 const App = () => {
   //HANDLING THEME
-  const activeTheme = themes[1];
+  const activeTheme = themes[8];
 
   //LOADING DAILY POKE
   let currentDate = new Date().toJSON().slice(0, 10);
@@ -95,16 +97,19 @@ const App = () => {
   };
 
   //HANDLING GUESSES
-  let score = 15000;
-  let noOfGuesses = 0;
-  const makeGuess = async (pokemon, guess) => {
-    console.log('Pokemon:', pokemon.name);
-    console.log('Guess:', guess);
+  const [victoryVisible, setVictoryVisible] = useState(false);
+  const [gameOverVisible, setGameOverVisible] = useState(false);
+  const [hintsRevealed, setHintsRevealed] = useState(0);
+  const [noOfGuesses, setGuessNumber] = useState(0);
 
+  let score = 15000;
+  // let noOfGuesses = 0;
+  const makeGuess = async (pokemon, guess) => {
+    setGuessNumber(noOfGuesses + 1);
+    console.log(hintsRevealed);
     if (pokemon.name.toLowerCase() == guess) {
-      console.log('Correct Guess');
-      // await fetchPlayer();
-      // console.log(player);
+      setVictoryVisible(true);
+
       player.gamesPlayed++;
       player.gamesWon++;
       player.streak++;
@@ -113,6 +118,8 @@ const App = () => {
       player.scoreAvg = player.scoreTotal / player.gamesPlayed;
       player.winPercent = player.gamesWon / player.gamesPlayed;
       updatePlayer(player);
+    } else if (hintsRevealed === 9) {
+      setGameOverVisible(true);
     } else {
       console.log('Wrong');
     }
@@ -136,7 +143,47 @@ const App = () => {
       ref={drawer}
       drawerWidth={300}
       renderNavigationView={navigationView}>
+      {/* Victory modal */}
       <View style={styles.container}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={victoryVisible}
+          onRequestClose={() => {
+            // Alert.alert('Modal has been closed.');
+            setVictoryVisible(!victoryVisible);
+          }}>
+          <View style={styles.popUp}>
+            <View style={styles.popUpWindow}>
+              <Text style={styles.modalText}>Victory! Yay!</Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setVictoryVisible(!victoryVisible)}>
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
+        {/* Game Over modal */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={gameOverVisible}
+          onRequestClose={() => {
+            // Alert.alert('Modal has been closed.');
+            setGameOverVisible(!gameOverVisible);
+          }}>
+          <View style={styles.popUp}>
+            <View style={styles.popUpWindow}>
+              <Text style={styles.modalText}>Game Over!</Text>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => setGameOverVisible(!gameOverVisible)}>
+                <Text style={styles.textStyle}>Hide Modal</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.header}>
           <Header
             onMenuOpen={() => drawer.current.openDrawer()}
@@ -148,7 +195,11 @@ const App = () => {
           {loading ? (
             <Text>Loading...</Text> // Show loading indicator while data is being fetched
           ) : (
-            <GameBoard hints={currentPoke} theme={activeTheme} /> // Render GameBoard only when data is ready
+            <GameBoard
+              hints={currentPoke}
+              theme={activeTheme}
+              onHintsRevealed={number => setHintsRevealed(number)}
+            /> // Render GameBoard only when data is ready
           )}
         </View>
         <View style={styles.input}>
@@ -180,6 +231,40 @@ const styles = StyleSheet.create({
   input: {
     flex: 4,
     // backgroundColor: 'red',
+  },
+
+  popUp: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  popUpWindow: {
+    width: '80%',
+    aspectRatio: 1 / 1,
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
 
