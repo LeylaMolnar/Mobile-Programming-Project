@@ -12,13 +12,20 @@ import Input from './components/Input';
 import Header from './components/Header';
 
 const themes = [
-  ['#332011', '#633C15', '#C5915D', '#EFDBB6', '#FCF3E4'],
-  ['#E3BE66', '#B68933', '#6BC399', '#89D89B', '#F2E7A6'],
+  ['#332011', '#633C15', '#C5915D', '#EFDBB6', '#FCF3E4'], //Eevee
+  ['#E3BE66', '#B68933', '#6BC399', '#89D89B', '#F2E7A6'], //Leafeon
+  ['#261D2D', '#57346F', '#E7D94D', '#EFF06E', '#F9F8E5'], //Jolteon
+  ['#107496', '#114E67', '#419DBF', '#84DEFF', '#FFE6A4', '#D9D9D9'], //Vaporeon
+  ['#742119', '#C7A66A', '#D84254', '#E1C08D', '#F6734A'], //Flareon
+  ['#363F44', '#414E53', '#4C6180', '#DE634D', '#EFCB69'], //Umbreon
+  ['#5872A6', '#726CA8', '#C64863', '#D9BAD2', '#E4CDDD'], //Espeon
+  ['#6E82B7', '#95DAF8', '#F492A5', '#F7E8D8', '#F9CBD0'], //Sylveon
+  ['#2B595E', '#428795', '#4D7E93', '#92CCDB', '#C5E7E9'], //Glaceon
 ];
 
 const App = () => {
   //HANDLING THEME
-  const activeTheme = themes[0];
+  const activeTheme = themes[1];
 
   //LOADING DAILY POKE
   let currentDate = new Date().toJSON().slice(0, 10);
