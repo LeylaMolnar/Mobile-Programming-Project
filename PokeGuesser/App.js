@@ -54,18 +54,6 @@ const App = () => {
       {label: 'Sylveon', value: themes[7], index: 7},
       {label: 'Glaceon', value: themes[8], index: 8},
     ],
-    // themes2: [
-    //   {label: 'Leafeon', value: themes[1], index: 1},
-    //   {label: 'Jolteon', value: themes[2], index: 2},
-    //   {label: 'Vaporeon', value: themes[3], index: 3},
-    //   {label: 'Flareon', value: themes[4], index: 4},
-    // ],
-    // themes3: [
-    //   {label: 'Umbreon', value: themes[5], index: 5},
-    //   {label: 'Espeon', value: themes[6], index: 6},
-    //   {label: 'Sylveon', value: themes[7], index: 7},
-    //   {label: 'Glaceon', value: themes[8], index: 8},
-    // ],
   };
 
   //LOADING DAILY POKE
@@ -434,8 +422,40 @@ const App = () => {
           }}>
           <View style={styles.popUp}>
             <View
-              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
+              style={[styles.statsWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Statistics</Text>
+              {loadingPlayer ? (
+                <Text>Loading...</Text> // Show loading indicator while data is being fetched
+              ) : (
+                <View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.statTitle}>Total Score: </Text>
+                    <Text>{player.scoreTotal}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.statTitle}>Average Score: </Text>
+                    <Text>{player.scoreAvg}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.statTitle}>
+                      Number of Games Played:
+                    </Text>
+                    <Text>{player.gamesPlayed}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.statTitle}>Number of Games Won: </Text>
+                    <Text>{player.gamesWon}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.statTitle}>Number of Games Lost: </Text>
+                    <Text>{player.gamesLost}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={styles.statTitle}>Win Percentage: </Text>
+                    <Text>{player.winPercent}</Text>
+                  </View>
+                </View>
+              )}
               <Pressable
                 style={[
                   styles.button,
@@ -576,6 +596,21 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
   },
   listItemStyle: {},
+  statTitle: {
+    marginBottom: 5,
+    // textAlign: 'left',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  statsWindow: {
+    width: '80%',
+    aspectRatio: 1 / 1,
+    // height: 400,
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+  },
 });
 
 export default App;
