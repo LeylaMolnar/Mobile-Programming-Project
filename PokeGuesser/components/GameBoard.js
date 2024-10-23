@@ -26,6 +26,8 @@ const images = {
   greninjaEvo: require('../assets/ThirdofThree.png'),
   snom: require('../assets/snomShadow.png'),
   snomEvo: require('../assets/FirstofTwo.png'),
+  wormadam: require('../assets/wormadamShadow.png'),
+  wormadamEvo: require('../assets/FirstofTwo.png'),
 };
 
 const FlipYCard = ({
@@ -122,9 +124,7 @@ const GameBoard = props => {
   return (
     <View style={[styles.gameBoard, {backgroundColor: props.theme[4]}]}>
       <View>
-        <Text style={[styles.title, {color: props.theme[1]}]}>
-          PokeGuesser #8
-        </Text>
+        <Text style={[styles.title, {color: props.theme[1]}]}>PokeGuesser</Text>
       </View>
       {[0, 1, 2].map(row => (
         <View key={row} style={styles.row}>

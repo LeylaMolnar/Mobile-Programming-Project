@@ -38,7 +38,7 @@ const Input = props => {
                   </Text>
                 ) : (
                   <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
-                    {key}
+                    {key.toUpperCase()}
                   </Text>
                 )}
               </Pressable>
@@ -85,7 +85,7 @@ const Input = props => {
             style={[styles.key, {width: 60, backgroundColor: props.theme[1]}]}
             onPress={() => props.onMakeGuess(text)}>
             <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
-              Enter
+              Guess
             </Text>
           </Pressable>
         </View>

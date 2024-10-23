@@ -74,6 +74,7 @@ const App = () => {
   // console.log(currentDate);
   const [currentPoke, setPoke] = useState();
   const [loading, setLoading] = useState(true); // State to manage loading
+  const [loadingPlayer, setLoadingPlayer] = useState(true);
   const fetchPoke = async () => {
     console.log('Fetching Poke');
     try {
@@ -113,9 +114,11 @@ const App = () => {
       let json = await response.json();
       setPlayer(json);
       // console.log('value in fetchPlayer: ' + json);
+      setLoadingPlayer(false);
       console.log(json);
     } catch (error) {
       console.log(error);
+      setLoadingPlayer(false);
     }
   };
 
@@ -297,7 +300,8 @@ const App = () => {
             setWrongGuessVisible(!wrongGuessVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={styles.popUpWindow}>
+            <View
+              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Incorrect</Text>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -317,7 +321,8 @@ const App = () => {
             setVictoryVisible(!victoryVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={styles.popUpWindow}>
+            <View
+              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Victory! Yay!</Text>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -337,7 +342,8 @@ const App = () => {
             setGameOverVisible(!gameOverVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={styles.popUpWindow}>
+            <View
+              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Game Over!</Text>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -357,7 +363,8 @@ const App = () => {
             setThemesVisible(!themesVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
+            <View
+              style={[styles.themeWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Themes</Text>
               <View
                 style={{
@@ -366,21 +373,16 @@ const App = () => {
                   flexWrap: 'wrap',
                   justifyContent: 'space-between',
                 }}>
-                {/* {options.themes1.map((option, index) => (
-                  <View key={index} style={styles.radioButton}>
-                    <RadioButton
-                      labelHorizontal={true} // Allows label to be displayed next to the radio button
-                      // label={option.label}
-                      buttonColor={'#50C900'}
-                      selectedButtonColor={'#50C900'}
-                      onPress={() => setActiveTheme(option.value)}
-                      isSelected={option.value === options.initial} // Change to match the initial selected value
-                    />
-                  </View>
-                ))} */}
+                <RadioForm
+                  radio_props={options.themes1}
+                  initial={1} //initial value of this group
+                  onPress={value => setActiveTheme(value)} //if the user changes options, set the new value
+                  buttonColor={'#000'}
+                  labelColor={'#000'}
+                />
               </View>
               <Pressable
-                style={[styles.button, styles.buttonClose, {backgroundColor: activeTheme[1]}]}
+                style={[styles.button, styles.buttonClose]}
                 onPress={() => setThemesVisible(!themesVisible)}>
                 <Text style={styles.textStyle}>Back to Game</Text>
               </Pressable>
@@ -397,9 +399,11 @@ const App = () => {
             setHistoryVisible(!historyVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={[styles.popUpWindow, {backgroundColor: activeTheme[1]}]}>
+            <View
+              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>History</Text>
-              <View style={[styles.gameList, {backgroundColor: activeTheme[3]}]}>
+              <View
+                style={[styles.gameList, {backgroundColor: activeTheme[3]}]}>
                 <FlatList
                   style={[styles.list, {backgroundColor: activeTheme[2]}]}
                   keyExtractor={keyHandler}
@@ -408,7 +412,11 @@ const App = () => {
                 />
               </View>
               <Pressable
-                style={[styles.button, styles.buttonClose, {backgroundColor: activeTheme[2]}]}
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  {backgroundColor: activeTheme[2]},
+                ]}
                 onPress={() => setHistoryVisible(!historyVisible)}>
                 <Text style={styles.textStyle}>Back to Game</Text>
               </Pressable>
@@ -425,21 +433,31 @@ const App = () => {
             setStatsVisible(!statsVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
+            <View
+              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Statistics</Text>
               <Pressable
-                style={[styles.button, styles.buttonClose, {backgroundColor: activeTheme[1]}]}
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  {backgroundColor: activeTheme[1]},
+                ]}
                 onPress={() => setStatsVisible(!statsVisible)}>
                 <Text style={styles.textStyle}>Back to Game</Text>
               </Pressable>
             </View>
           </View>
         </Modal>
-        <View style={styles.header}>
-          <Header
-            onMenuOpen={() => drawer.current.openDrawer()}
-            theme={activeTheme}
-          />
+        <View style={[styles.header, {backgroundColor: activeTheme[1]}]}>
+          {loadingPlayer ? (
+            <Text>Loading...</Text> // Show loading indicator while data is being fetched
+          ) : (
+            <Header
+              onMenuOpen={() => drawer.current.openDrawer()}
+              theme={activeTheme}
+              streak={player.streak}
+            />
+          )}
         </View>
         {/* <Button onPress={() => console.log(pokeList)} title="readPoke" /> */}
         <View style={[styles.board, {backgroundColor: activeTheme[4]}]}>
@@ -496,11 +514,19 @@ const styles = StyleSheet.create({
     width: '80%',
     aspectRatio: 1 / 1,
     margin: 20,
-    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
   },
+  themeWindow: {
+    width: '80%',
+    height: 500,
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+  },
+
   button: {
     borderRadius: 20,
     padding: 10,
@@ -515,8 +541,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 5,
     textAlign: 'center',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   menuButton: {
     flex: 1,

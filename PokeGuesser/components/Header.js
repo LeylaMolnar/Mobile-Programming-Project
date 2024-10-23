@@ -18,17 +18,39 @@ const Header = props => {
         <View style={styles.popUp}>
           <View style={[styles.popUpWindow, {backgroundColor: props.theme[2]}]}>
             <Text style={styles.modalText}>Tutorial</Text>
-            <Text style={styles.infoText}>How to play: Flip a card to get a hint</Text>
-            <Text style={styles.infoText}>You can guess as many times you want on each hint EXCEPT the last one!</Text>
-            <Text style={styles.infoText}>The less cards you flip, the higher the score!</Text>
-            <Text style={styles.infoText}>if you cannot guess the pokemon, you lose and your daily streak is reset!</Text>
-            <Text style={styles.infoText}>Regions: this is the first area where the Pokémon appears in.</Text>
-            <View style={{flex: 1, flexDirection:'row'}}>
-              <Image style={styles.tutorialImage} source={require('../assets/ThirdBranch.png')}></Image>
-            <Text style={styles.treeInfo}>The evolution tree progresses from top to bottom. For example, in this tree the Pokémon is in one of its third evolutions. The desired Pokémon's evolution stage is shown with a red dot.</Text>
+            <Text style={styles.infoText}>
+              How to play: Flip a card to get a hint
+            </Text>
+            <Text style={styles.infoText}>
+              You can guess as many times you want on each hint EXCEPT the last
+              one!
+            </Text>
+            <Text style={styles.infoText}>
+              The less cards you flip, the higher the score!
+            </Text>
+            <Text style={styles.infoText}>
+              if you cannot guess the pokemon, you lose and your daily streak is
+              reset!
+            </Text>
+            <Text style={styles.infoText}>
+              Regions: this is the first area where the Pokémon appears in.
+            </Text>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <Image
+                style={styles.tutorialImage}
+                source={require('../assets/ThirdBranch.png')}></Image>
+              <Text style={styles.treeInfo}>
+                The evolution tree progresses from top to bottom. For example,
+                in this tree the Pokémon is in one of its third evolutions. The
+                desired Pokémon's evolution stage is shown with a red dot.
+              </Text>
             </View>
             <Pressable
-              style={[styles.button, styles.buttonClose, {backgroundColor: props.theme[1]}]}
+              style={[
+                styles.button,
+                styles.buttonClose,
+                {backgroundColor: props.theme[1]},
+              ]}
               onPress={() => setTutorialVisible(!tutorialVisible)}>
               <Text style={styles.textStyle}>Back to game</Text>
             </Pressable>
@@ -63,6 +85,9 @@ const Header = props => {
           source={require('../assets/fire.png')}
           style={styles.imageSize}
         />
+        <View>
+          <Text>{props.streak}</Text>
+        </View>
       </View>
       <View style={styles.tutorial}>
         <Pressable
@@ -93,7 +118,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 80,
     resizeMode: 'contain',
-    marginTop: 10
+    marginTop: 10,
   },
   press: {
     flex: 1,
@@ -154,17 +179,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: 'center',
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   infoText: {
     marginTop: 1,
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 16,
   },
   treeInfo: {
     marginTop: 5,
     textAlign: 'left',
-    fontSize: 16
+    fontSize: 16,
   },
 
   container: {
