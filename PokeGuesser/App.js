@@ -327,10 +327,10 @@ const App = () => {
             setThemesVisible(!themesVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={styles.popUpWindow}>
+            <View style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Themes</Text>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[styles.button, styles.buttonClose, {backgroundColor: activeTheme[1]}]}
                 onPress={() => setThemesVisible(!themesVisible)}>
                 <Text style={styles.textStyle}>Back to Game</Text>
               </Pressable>
@@ -347,18 +347,18 @@ const App = () => {
             setHistoryVisible(!historyVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={styles.popUpWindow}>
+            <View style={[styles.popUpWindow, {backgroundColor: activeTheme[1]}]}>
               <Text style={styles.modalText}>History</Text>
-              <View style={styles.gameList}>
+              <View style={[styles.gameList, {backgroundColor: activeTheme[3]}]}>
                 <FlatList
-                  style={styles.list}
+                  style={[styles.list, {backgroundColor: activeTheme[2]}]}
                   keyExtractor={keyHandler}
                   data={pokeList}
                   renderItem={renderPoke}
                 />
               </View>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[styles.button, styles.buttonClose, {backgroundColor: activeTheme[2]}]}
                 onPress={() => setHistoryVisible(!historyVisible)}>
                 <Text style={styles.textStyle}>Back to Game</Text>
               </Pressable>
@@ -375,10 +375,10 @@ const App = () => {
             setStatsVisible(!statsVisible);
           }}>
           <View style={styles.popUp}>
-            <View style={styles.popUpWindow}>
+            <View style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Statistics</Text>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[styles.button, styles.buttonClose, {backgroundColor: activeTheme[1]}]}
                 onPress={() => setStatsVisible(!statsVisible)}>
                 <Text style={styles.textStyle}>Back to Game</Text>
               </Pressable>
