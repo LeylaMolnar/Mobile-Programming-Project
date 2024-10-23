@@ -222,8 +222,6 @@ const App = () => {
         <View style={styles.listItemStyle}>
           <Text>
             {' Date: '} {item.item.date}
-            {' Name: '}
-            {item.item.name}
           </Text>
         </View>
       </Pressable>
@@ -289,10 +287,17 @@ const App = () => {
           }}>
           <View style={styles.popUp}>
             <View
-              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
+              style={[
+                styles.incorrectWindow,
+                {backgroundColor: activeTheme[2]},
+              ]}>
               <Text style={styles.modalText}>Incorrect</Text>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  {backgroundColor: activeTheme[1]},
+                ]}
                 onPress={() => setWrongGuessVisible(!wrongGuessVisible)}>
                 <Text style={styles.textStyle}>Keep playing</Text>
               </Pressable>
@@ -310,12 +315,21 @@ const App = () => {
           }}>
           <View style={styles.popUp}>
             <View
-              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
+              style={[styles.victoryWindow, {backgroundColor: activeTheme[2]}]}>
               <Text style={styles.modalText}>Victory! Yay!</Text>
+              {loading ? (
+                <Text>Loading...</Text> // Show loading indicator while data is being fetched
+              ) : (
+                <Text style={styles.modalText}>It's {currentPoke.name}!</Text>
+              )}
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  {backgroundColor: activeTheme[1]},
+                ]}
                 onPress={() => setVictoryVisible(!victoryVisible)}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
+                <Text style={styles.textStyle}>Hooray!</Text>
               </Pressable>
             </View>
           </View>
@@ -331,12 +345,19 @@ const App = () => {
           }}>
           <View style={styles.popUp}>
             <View
-              style={[styles.popUpWindow, {backgroundColor: activeTheme[2]}]}>
+              style={[
+                styles.gameOverWindow,
+                {backgroundColor: activeTheme[2]},
+              ]}>
               <Text style={styles.modalText}>Game Over!</Text>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  {backgroundColor: activeTheme[1]},
+                ]}
                 onPress={() => setGameOverVisible(!gameOverVisible)}>
-                <Text style={styles.textStyle}>Hide Modal</Text>
+                <Text style={styles.textStyle}>Oh No!</Text>
               </Pressable>
             </View>
           </View>
@@ -370,7 +391,11 @@ const App = () => {
                 />
               </View>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[
+                  styles.button,
+                  styles.buttonClose,
+                  {backgroundColor: activeTheme[1]},
+                ]}
                 onPress={() => setThemesVisible(!themesVisible)}>
                 <Text style={styles.textStyle}>Back to Game</Text>
               </Pressable>
@@ -403,7 +428,7 @@ const App = () => {
                 style={[
                   styles.button,
                   styles.buttonClose,
-                  {backgroundColor: activeTheme[2]},
+                  {backgroundColor: activeTheme[1]},
                 ]}
                 onPress={() => setHistoryVisible(!historyVisible)}>
                 <Text style={styles.textStyle}>Back to Game</Text>
@@ -595,7 +620,11 @@ const styles = StyleSheet.create({
     width: '90%',
     // backgroundColor: 'blue',
   },
-  listItemStyle: {},
+  listItemStyle: {
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 5,
+  },
   statTitle: {
     marginBottom: 5,
     // textAlign: 'left',
@@ -606,6 +635,33 @@ const styles = StyleSheet.create({
     width: '80%',
     aspectRatio: 1 / 1,
     // height: 400,
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+  },
+  gameOverWindow: {
+    width: '80%',
+    // aspectRatio: 1 / 1,
+    height: 200,
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+  },
+  incorrectWindow: {
+    width: '80%',
+    // aspectRatio: 1 / 1,
+    height: 200,
+    margin: 20,
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+  },
+  victoryWindow: {
+    width: '80%',
+    // aspectRatio: 1 / 1,
+    height: 200,
     margin: 20,
     borderRadius: 20,
     padding: 35,

@@ -85,9 +85,8 @@ const Header = props => {
           source={require('../assets/fire.png')}
           style={styles.imageSize}
         />
-        <View>
-          <Text>{props.streak}</Text>
-        </View>
+
+        {/* <Text>{props.streak}</Text> */}
       </View>
       <View style={styles.tutorial}>
         <Pressable
