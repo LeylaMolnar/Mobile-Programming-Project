@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 
 let nextCard = 1;
-
 const images = {
   snorlax: require('../assets/snorlaxShadow.png'),
   snorlaxEvo: require('../assets/SecondofTwo.png'),
@@ -43,10 +42,12 @@ const FlipYCard = ({
 
   const handlePress = () => {
     onHintsRevealed(nextCard);
+    console.log(nextCard);
 
     if (nextCard == cardID) {
       setIsDisabled(true);
       nextCard++;
+      // setNextCard(nextCard + 1);
       const nextSide = currentSide === 0 ? 1 : 0;
       setSide(nextSide);
       Animated.timing(flipAnim, {

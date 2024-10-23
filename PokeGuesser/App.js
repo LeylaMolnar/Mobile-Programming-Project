@@ -14,6 +14,7 @@ import {
 import GameBoard from './components/GameBoard';
 import Input from './components/Input';
 import Header from './components/Header';
+import RadioForm, {RadioButton} from 'react-native-simple-radio-button';
 
 const themes = [
   ['#332011', '#633C15', '#C5915D', '#EFDBB6', '#FCF3E4'], //Eevee
@@ -40,7 +41,32 @@ const App = () => {
   }, []); // Empty dependency array ensures it runs once on mount
 
   //HANDLING THEME
-  const activeTheme = themes[0];
+  const [activeTheme, setActiveTheme] = useState(themes[1]);
+  const options = {
+    themes1: [
+      {label: 'Eevee', value: themes[0], index: 0},
+      {label: 'Leafeon', value: themes[1], index: 1},
+      {label: 'Jolteon', value: themes[2], index: 2},
+      {label: 'Vaporeon', value: themes[3], index: 3},
+      {label: 'Flareon', value: themes[4], index: 4},
+      {label: 'Umbreon', value: themes[5], index: 5},
+      {label: 'Espeon', value: themes[6], index: 6},
+      {label: 'Sylveon', value: themes[7], index: 7},
+      {label: 'Glaceon', value: themes[8], index: 8},
+    ],
+    // themes2: [
+    //   {label: 'Leafeon', value: themes[1], index: 1},
+    //   {label: 'Jolteon', value: themes[2], index: 2},
+    //   {label: 'Vaporeon', value: themes[3], index: 3},
+    //   {label: 'Flareon', value: themes[4], index: 4},
+    // ],
+    // themes3: [
+    //   {label: 'Umbreon', value: themes[5], index: 5},
+    //   {label: 'Espeon', value: themes[6], index: 6},
+    //   {label: 'Sylveon', value: themes[7], index: 7},
+    //   {label: 'Glaceon', value: themes[8], index: 8},
+    // ],
+  };
 
   //LOADING DAILY POKE
   let currentDate = new Date().toJSON().slice(0, 10);
@@ -188,16 +214,20 @@ const App = () => {
     return item.id;
   };
 
+  const [gameKey, setGameKey] = useState(0); // Use state to control the key
   const fetchNewPoke = date => {
+    nextCard = 1;
+    setGameKey(gameKey + 1); // Change the key to trigger a re-render
     console.log('fetching new poke');
     console.log(date);
     pokeDate = date;
     fetchPoke();
+    console.log(nextCard);
   };
 
   const renderPoke = item => {
     return (
-      <Pressable onPress={() => fetchNewPoke(item.item.date)}>
+      <Pressable onPress={() => fetchNewPoke(item.item.date)} key={item.id}>
         <View style={styles.listItemStyle}>
           <Text>
             {' Date: '} {item.item.date}
@@ -329,6 +359,26 @@ const App = () => {
           <View style={styles.popUp}>
             <View style={styles.popUpWindow}>
               <Text style={styles.modalText}>Themes</Text>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-between',
+                }}>
+                {/* {options.themes1.map((option, index) => (
+                  <View key={index} style={styles.radioButton}>
+                    <RadioButton
+                      labelHorizontal={true} // Allows label to be displayed next to the radio button
+                      // label={option.label}
+                      buttonColor={'#50C900'}
+                      selectedButtonColor={'#50C900'}
+                      onPress={() => setActiveTheme(option.value)}
+                      isSelected={option.value === options.initial} // Change to match the initial selected value
+                    />
+                  </View>
+                ))} */}
+              </View>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setThemesVisible(!themesVisible)}>
@@ -391,7 +441,7 @@ const App = () => {
             theme={activeTheme}
           />
         </View>
-        <Button onPress={() => console.log(pokeList)} title="readPoke" />
+        {/* <Button onPress={() => console.log(pokeList)} title="readPoke" /> */}
         <View style={[styles.board, {backgroundColor: activeTheme[4]}]}>
           {loading ? (
             <Text>Loading...</Text> // Show loading indicator while data is being fetched
@@ -400,6 +450,7 @@ const App = () => {
               hints={currentPoke}
               theme={activeTheme}
               onHintsRevealed={number => setHintsRevealed(number)}
+              key={gameKey}
             /> // Render GameBoard only when data is ready
           )}
         </View>
@@ -487,17 +538,16 @@ const styles = StyleSheet.create({
   },
 
   gameList: {
-    borderWidth: 1,
-    borderColor: 'blue',
+    flex: 1,
     padding: 5,
-    backgroundColor: '#abc',
-    width: '80%',
+    // width: '80%',
     alignSelf: 'center',
   },
   list: {
-    width: '80%',
-    backgroundColor: 'blue',
+    width: '90%',
+    // backgroundColor: 'blue',
   },
+  listItemStyle: {},
 });
 
 export default App;
