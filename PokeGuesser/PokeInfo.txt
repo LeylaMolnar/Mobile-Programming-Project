@@ -17,3 +17,21 @@ moves: torrent, protean
 dex entry: It creates throwing stars out of compressed water. When it spins them and throws them at high speed, these stars can split metal in two. 
 trivia: It is the only Pokémon playable in Super Smash Bros. Ultimate that is unavailable in a Generation VIII core series game.
 anime appearance: appeared in Diancie and the Cocoon of Destruction, under the ownership of Riot.
+
+
+Tutorial shiz
+
+How to play:
+
+flip a card to get a hint
+you can guess as many times you want on each hint EXCEPT the last one!
+the less cards you flip, the higher the score!
+if you cannot guess the pokemon, you lose and your daily streak is reset!
+
+little info
+
+regions: this is the first area where the Pokémon appears in
+
+evolution trees: the tree progresses from top to bottom. 
+For example, in this tree the Pokémon is in one of its third evolutions. 
+The desired Pokémon's evolution stage is shown with a red dot
