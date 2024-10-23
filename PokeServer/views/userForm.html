@@ -27,6 +27,7 @@
       <div>
         <input name="theme" placeholder="Theme" />
         <input name="streak" placeholder="Daily Streak" />
+        <input name="history" placeholder="History (leave empty)" />
       </div>
       <div>
         <input type="button" value="Add/Update User" onclick="addToDb(this.form)" />
@@ -56,6 +57,7 @@
         user.winPercent = form.winPercent.value;
         user.streak = form.streak.value;
         user.theme = form.theme.value;
+        user.history = form.history.value;
 
         let jsonUser = JSON.stringify(user);
         var xmlhttp = new XMLHttpRequest();

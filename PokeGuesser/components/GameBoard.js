@@ -42,12 +42,9 @@ const FlipYCard = ({
   const [isDisabled, setIsDisabled] = useState(false);
 
   const handlePress = () => {
-    console.log(pokemon.toLowerCase());
     onHintsRevealed(nextCard);
 
-    console.log('card pressed' + cardID);
     if (nextCard == cardID) {
-      console.log('correct card pressed');
       setIsDisabled(true);
       nextCard++;
       const nextSide = currentSide === 0 ? 1 : 0;

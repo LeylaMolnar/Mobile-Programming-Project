@@ -17,11 +17,11 @@ const Header = props => {
         }}>
         <View style={styles.popUp}>
           <View style={styles.popUpWindow}>
-            <Text style={styles.modalText}>Hello World!</Text>
+            <Text style={styles.modalText}>Tutorial</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => setTutorialVisible(!tutorialVisible)}>
-              <Text style={styles.textStyle}>Hide Modal</Text>
+              <Text style={styles.textStyle}>Back to game</Text>
             </Pressable>
           </View>
         </View>
@@ -30,7 +30,7 @@ const Header = props => {
       <View style={styles.hamburger}>
         <Pressable style={styles.press} onPress={() => props.onMenuOpen()}>
           <Image
-            source={require('../assets/circle.png')}
+            source={require('../assets/burgerIcon.png')}
             style={styles.imageSize}
           />
         </Pressable>
@@ -45,7 +45,7 @@ const Header = props => {
       </View>
       <View style={styles.logo}>
         <Image
-          source={require('../assets/circle.png')}
+          source={require('../assets/logoIcon.png')}
           style={styles.imageSize}
         />
       </View>
@@ -60,7 +60,7 @@ const Header = props => {
           style={styles.press}
           onPress={() => setTutorialVisible(true)}>
           <Image
-            source={require('../assets/circle.png')}
+            source={require('../assets/infoIcon.png')}
             style={styles.imageSize}
           />
         </Pressable>
@@ -76,8 +76,9 @@ const styles = StyleSheet.create({
     // backgroundColor: 'grey',
   },
   imageSize: {
-    width: 60,
-    height: 60,
+    width: '80%',
+    height: '80%',
+    resizeMode: 'contain',
   },
   press: {
     flex: 1,
@@ -87,6 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   hamburger: {
+    padding: 5,
     flex: 1,
   },
   logIn: {
@@ -94,6 +96,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     flex: 1,
+    paddingTop: 10,
     marginRight: 40,
     marginLeft: 40,
   },
@@ -101,6 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   tutorial: {
+    // padding: 5,
     flex: 1,
   },
   popUp: {

@@ -105,19 +105,6 @@ app.delete("/deletePoke/:id", (req, res) => {
 });
 
 //========POKEMON FUNCTIONS=========
-// async function pingdb() {
-//   try {
-//     console.log("pingdb started");
-//     await client.connect();
-//     await client.db("pokedb").command({ ping: 1 });
-//     console.log("Ping succeeded");
-//     return "woah";
-//   } catch (e) {
-//     return e;
-//   } finally {
-//     await client.close();
-//   }
-// }
 
 async function addPoke(pokemon) {
   console.log("addPoke function called");
