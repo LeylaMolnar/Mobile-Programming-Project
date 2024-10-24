@@ -67,7 +67,8 @@ const App = () => {
     console.log('Fetching Poke');
     try {
       let response = await fetch(
-        'http://10.0.2.2:8080/getPokeByDate/' + pokeDate,
+        'https://mobileprogramming24.lm.r.appspot.com/getPokeByDate/' +
+          pokeDate,
       );
       let json = await response.json();
       setPoke(json);
@@ -83,7 +84,9 @@ const App = () => {
   const fetchAllPoke = async () => {
     console.log('Fetching all Poke');
     try {
-      let response = await fetch('http://10.0.2.2:8080/getAllPoke/');
+      let response = await fetch(
+        'https://mobileprogramming24.lm.r.appspot.com/getAllPoke/',
+      );
       let json = await response.json();
       setPokeList(json);
       // setLoading(false);
@@ -98,7 +101,9 @@ const App = () => {
   const fetchPlayer = async () => {
     console.log('Fetching player');
     try {
-      let response = await fetch('http://10.0.2.2:8080/getUser/' + username);
+      let response = await fetch(
+        'https://mobileprogramming24.lm.r.appspot.com/getUser/' + username,
+      );
       let json = await response.json();
       setPlayer(json);
       // console.log('value in fetchPlayer: ' + json);
@@ -114,13 +119,16 @@ const App = () => {
     console.log('Updating player data');
     console.log(player);
     try {
-      let response = await fetch('http://10.0.2.2:8080/updateUser', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      let response = await fetch(
+        'https://mobileprogramming24.lm.r.appspot.com/updateUser',
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(player),
         },
-        body: JSON.stringify(player),
-      });
+      );
 
       if (!response.ok) {
         throw new Error('Failed to update Pokémon');
