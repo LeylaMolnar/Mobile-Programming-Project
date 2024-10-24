@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 
 import {StyleSheet, Text, View, Pressable} from 'react-native';
 
+//Array to hold the top 3 rows of the keyboard
 const keys = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
@@ -9,8 +10,9 @@ const keys = [
 ];
 
 const Input = props => {
-  const [text, setText] = React.useState('');
+  const [text, setText] = React.useState(''); //Variable for the entered text
 
+  //'X' acts as our backspace key. All other keys just add their letter to the text
   const inputHandler = char => {
     if (char === 'X') {
       setText(text.substring(0, text.length - 1));
@@ -21,10 +23,13 @@ const Input = props => {
 
   return (
     <View style={[styles.inputContainer, {backgroundColor: props.theme[4]}]}>
+      {/* Input field for the guess */}
       <View style={styles.inputField}>
         <Text style={[styles.input, {color: props.theme[1]}]}>{text}</Text>
       </View>
+      {/* Keyboard */}
       <View style={styles.keyboard}>
+        {/* First map creates top 3 rows of the keyboard, second map fills those rows with our keys from the previous variable */}
         {keys.map((row, i) => (
           <View key={i} style={styles.row}>
             {row.map((key, j) => (
@@ -32,6 +37,7 @@ const Input = props => {
                 key={i * 20 + j}
                 style={[styles.key, {backgroundColor: props.theme[1]}]}
                 onPress={() => inputHandler({key}.key)}>
+                {/* The backspace key should have a special character, all other keys just have their letter */}
                 {key === 'X' ? (
                   <Text style={[styles.keyCharacter, {color: props.theme[3]}]}>
                     ⌫
@@ -45,6 +51,7 @@ const Input = props => {
             ))}
           </View>
         ))}
+        {/* The keys in the final row are handled separately to allow for easier modification of key size and custom text */}
         <View style={[styles.row, {justifyContent: 'flex-end'}]}>
           <Pressable
             style={[styles.key, {backgroundColor: props.theme[1]}]}
@@ -97,7 +104,6 @@ const Input = props => {
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    // flexDirection: 'column',
     justifyContent: 'flex-end',
   },
   inputField: {
@@ -112,14 +118,10 @@ const styles = StyleSheet.create({
   },
   keyboard: {
     flex: 6,
-    // alignSelf: 'flex-end',
   },
   row: {
-    // flex: 1,
     flexDirection: 'row',
-    // backgroundColor: 'blue',
     justifyContent: 'center',
-    // marginTop: 5,
   },
   key: {
     width: 37,

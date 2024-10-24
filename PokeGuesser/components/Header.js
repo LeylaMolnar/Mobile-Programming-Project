@@ -3,16 +3,16 @@ import React, {useRef, useState} from 'react';
 import {StyleSheet, Text, View, Pressable, Image, Modal} from 'react-native';
 
 const Header = props => {
-  const [tutorialVisible, setTutorialVisible] = useState(false);
+  const [tutorialVisible, setTutorialVisible] = useState(false); //Variable to control tutorial pop-up
 
   return (
     <View style={[styles.headerContainer, {backgroundColor: props.theme[1]}]}>
+      {/* Tutorial modal */}
       <Modal
         animationType="fade"
         transparent={true}
         visible={tutorialVisible}
         onRequestClose={() => {
-          // Alert.alert('Modal has been closed.');
           setTutorialVisible(!tutorialVisible);
         }}>
         <View style={styles.popUp}>
@@ -58,6 +58,7 @@ const Header = props => {
         </View>
       </Modal>
 
+      {/* Header icons */}
       <View style={styles.hamburger}>
         <Pressable style={styles.press} onPress={() => props.onMenuOpen()}>
           <Image
@@ -85,8 +86,6 @@ const Header = props => {
           source={require('../assets/fire.png')}
           style={styles.imageSize}
         />
-
-        {/* <Text>{props.streak}</Text> */}
       </View>
       <View style={styles.tutorial}>
         <Pressable

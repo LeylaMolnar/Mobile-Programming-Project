@@ -16,12 +16,13 @@ import Input from './components/Input';
 import Header from './components/Header';
 import RadioForm, {RadioButton} from 'react-native-simple-radio-button';
 
+// Variable to hold our themes
 const themes = [
   ['#332011', '#633C15', '#C5915D', '#EFDBB6', '#FCF3E4'], //Eevee
   ['#E3BE66', '#B68933', '#89D89B', '#F2E7A6', '#6BC399'], //Leafeon
   ['#261D2D', '#57346F', '#E7D94D', '#EFF06E', '#F9F8E5'], //Jolteon
   ['#84DEFF', '#114E67', '#419DBF', '#FFE6A4', '#107496', '#D9D9D9'], //Vaporeon
-  ['#C7A66A', '#E1C08D', '#D84254', '#742119', '#F6734A'], //Flareon check flip
+  ['#C7A66A', '#E1C08D', '#D84254', '#742119', '#F6734A'], //Flareon
   ['#DE634D', '#363F44', '#4C6180', '#EFCB69', '#414E53'], //Umbreon
   ['#5872A6', '#726CA8', '#C64863', '#D9BAD2', '#AE919D'], //Espeon
   ['#95DAF8', '#6E82B7', '#F9CBD0', '#F7E8D8', '#F492A5'], //Sylveon
@@ -57,15 +58,15 @@ const App = () => {
   };
 
   //LOADING DAILY POKE
-  let currentDate = new Date().toJSON().slice(0, 10);
+  let currentDate = new Date().toJSON().slice(0, 10); //Get current date
   let pokeDate = currentDate;
-  // console.log(currentDate);
-  const [currentPoke, setPoke] = useState();
+  const [currentPoke, setPoke] = useState(); //All data of the pokemon currently on board
   const [loading, setLoading] = useState(true); // State to manage loading
-  const [loadingPlayer, setLoadingPlayer] = useState(true);
+  const [loadingPlayer, setLoadingPlayer] = useState(true); //Player loading
   const fetchPoke = async () => {
     console.log('Fetching Poke');
     try {
+      // gets the pokemon of the specified date
       let response = await fetch(
         'https://mobileprogramming24.lm.r.appspot.com/getPokeByDate/' +
           pokeDate,
@@ -73,23 +74,22 @@ const App = () => {
       let json = await response.json();
       setPoke(json);
       setLoading(false);
-      // console.log(json);
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
 
-  const [pokeList, setPokeList] = useState([]);
+  const [pokeList, setPokeList] = useState([]); //Some data about all pokemon
   const fetchAllPoke = async () => {
     console.log('Fetching all Poke');
     try {
+      //Fetches data from all pokemon in the database
       let response = await fetch(
         'https://mobileprogramming24.lm.r.appspot.com/getAllPoke/',
       );
       let json = await response.json();
       setPokeList(json);
-      // setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -106,7 +106,6 @@ const App = () => {
       );
       let json = await response.json();
       setPlayer(json);
-      // console.log('value in fetchPlayer: ' + json);
       setLoadingPlayer(false);
       console.log(json);
     } catch (error) {
@@ -115,6 +114,7 @@ const App = () => {
     }
   };
 
+  //Updates the current player's statistics in the database
   const updatePlayer = async player => {
     console.log('Updating player data');
     console.log(player);
@@ -140,20 +140,21 @@ const App = () => {
   };
 
   //HANDLING GUESSES
-  const [victoryVisible, setVictoryVisible] = useState(false);
+  const [victoryVisible, setVictoryVisible] = useState(false); //Variables to handle pop-up windows
   const [gameOverVisible, setGameOverVisible] = useState(false);
   const [wrongGuessVisible, setWrongGuessVisible] = useState(false);
-  const [hintsRevealed, setHintsRevealed] = useState(0);
+  const [hintsRevealed, setHintsRevealed] = useState(0); //Variables to keep track of various statistics
   const [noOfGuesses, setGuessNumber] = useState(0);
 
   let score = 15000;
-  // let noOfGuesses = 0;
   const makeGuess = async (pokemon, guess) => {
     setGuessNumber(noOfGuesses + 1);
     console.log(hintsRevealed);
     if (pokemon.name.toLowerCase() == guess) {
+      // Player guessed the correct pokemon
       setVictoryVisible(true);
 
+      //Set new statistics
       player.gamesPlayed++;
       player.gamesWon++;
       player.streak++;
@@ -161,16 +162,14 @@ const App = () => {
       player.scoreTotal += score;
       player.scoreAvg = player.scoreTotal / player.gamesPlayed;
       player.winPercent = player.gamesWon / player.gamesPlayed;
-
-      // Ensure history is an array
       player.history = player.history || [];
 
-      // Create a new history entry
+      // Create a new history entry to keep track of the player's performance in each game
       const historyEntry = {
-        date: currentPoke.date, // Store date in YYYY-MM-DD format
+        date: currentPoke.date,
         pokeID: currentPoke._id,
         score: score,
-        noOfGuesses: noOfGuesses, // Add other relevant data from currentPoke
+        noOfGuesses: noOfGuesses,
         hintsRevealed: hintsRevealed,
         result: 'win',
       };
@@ -178,6 +177,7 @@ const App = () => {
 
       updatePlayer(player);
     } else if (hintsRevealed === 9) {
+      // The player guessed wrong with all hints, game over
       setGameOverVisible(true);
 
       player.gamesPlayed++;
@@ -187,16 +187,14 @@ const App = () => {
       player.scoreTotal += score;
       player.scoreAvg = player.scoreTotal / player.gamesPlayed;
       player.winPercent = player.gamesWon / player.gamesPlayed;
-
-      // Ensure history is an array
       player.history = player.history || [];
 
       // Create a new history entry
       const historyEntry = {
-        date: currentPoke.date, // Store date in YYYY-MM-DD format
+        date: currentPoke.date,
         pokeID: currentPoke._id,
         score: score,
-        noOfGuesses: noOfGuesses, // Add other relevant data from currentPoke
+        noOfGuesses: noOfGuesses,
         hintsRevealed: hintsRevealed,
         result: 'loss',
       };
@@ -204,6 +202,7 @@ const App = () => {
 
       updatePlayer(player);
     } else {
+      // Inform the player they guessed wrongGuessVisible, allow them to continue
       setWrongGuessVisible(true);
     }
   };

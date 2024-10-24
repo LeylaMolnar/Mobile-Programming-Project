@@ -12,6 +12,7 @@ import {
 
 let nextCard = 1;
 const images = {
+  //asset paths
   snorlax: require('../assets/snorlaxShadow.png'),
   snorlaxEvo: require('../assets/SecondofTwo.png'),
   anorith: require('../assets/anorithShadow.png'),
@@ -30,6 +31,7 @@ const images = {
   wormadamEvo: require('../assets/FirstofTwo.png'),
 };
 
+//Component to hand each card
 const FlipYCard = ({
   textFront,
   textBack,
@@ -38,10 +40,11 @@ const FlipYCard = ({
   onHintsRevealed,
   theme,
 }) => {
-  const flipAnim = useRef(new Animated.Value(0)).current;
+  const flipAnim = useRef(new Animated.Value(0)).current; //Variables to handle the flipping animation
   const [currentSide, setSide] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
 
+  //Sets which card can be flipped next, then animated the flipAnim variable
   const handlePress = () => {
     onHintsRevealed(nextCard);
     console.log(nextCard);
@@ -49,7 +52,6 @@ const FlipYCard = ({
     if (nextCard == cardID) {
       setIsDisabled(true);
       nextCard++;
-      // setNextCard(nextCard + 1);
       const nextSide = currentSide === 0 ? 1 : 0;
       setSide(nextSide);
       Animated.timing(flipAnim, {
@@ -60,21 +62,23 @@ const FlipYCard = ({
       }).start();
     }
   };
+
+  //Interpolating the animated value to handle various stylings
   const spin = flipAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '180deg'],
   });
-
   const frontOpacity = flipAnim.interpolate({
     inputRange: [0, 0.5, 0.51, 1],
     outputRange: [1, 1, 0, 0],
   });
-
   const backOpacity = flipAnim.interpolate({
     inputRange: [0, 0.5, 0.51, 1],
     outputRange: [0, 0, 1, 1],
   });
 
+  //Each card has a View for Front and Back side, which are wrapped in a Pressable component
+  //Only one of the sides is visible at a time
   return (
     <View style={styles.cardContainer}>
       <Pressable disabled={isDisabled} onPress={handlePress} style={{flex: 1}}>
@@ -100,14 +104,15 @@ const FlipYCard = ({
                 borderColor: theme[1],
               },
             ]}>
+            {/* The back side should display an image if necessary, or just text */}
             {textBack === 'pic1' ? (
               <Image
-                source={images[pokemon.toLowerCase() + 'Evo']} // Replace with the correct path for pic1
-                style={styles.cardImage} // Add styling for the image
+                source={images[pokemon.toLowerCase() + 'Evo']}
+                style={styles.cardImage}
               />
             ) : textBack === 'pic2' ? (
               <Image
-                source={images[pokemon.toLowerCase()]} // Replace with the correct path for pic2
+                source={images[pokemon.toLowerCase()]}
                 style={styles.cardImage}
               />
             ) : (
@@ -123,9 +128,12 @@ const FlipYCard = ({
 const GameBoard = props => {
   return (
     <View style={[styles.gameBoard, {backgroundColor: props.theme[4]}]}>
+      {/* Title */}
       <View>
         <Text style={[styles.title, {color: props.theme[1]}]}>PokeGuesser</Text>
       </View>
+      {/* Game board layout */}
+      {/* First map creates 3 rows, the second created 3 columns, this gives us a 3x3 grid we can fill with cards */}
       {[0, 1, 2].map(row => (
         <View key={row} style={styles.row}>
           {[1, 2, 3].map(col => {
@@ -169,7 +177,6 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    // backgroundColor: 'green',
     position: 'absolute',
     width: '100%',
     height: '100%',
@@ -180,7 +187,6 @@ const styles = StyleSheet.create({
   },
   cardBack: {
     flex: 1,
-    // backgroundColor: 'red',
     position: 'absolute',
     width: '100%',
     height: '100%',
